@@ -1,0 +1,96 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button aria-label="Menu icon" (click)="toggleMenu()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <h1>Responsive Material Sidenavigation</h1>
+</mat-toolbar>
+
+<mat-sidenav-container autosize>
+
+    <!--[ngClass] est une directive Angular qui permet d'ajouter et de supprimer dynamiquement des classes CSS d'un élément HTML.-->
+    <!--[mode] Cet attribut définit le mode d'affichage du panneau latéral.
+            ---------------------
+            Si smallMode est true (petit écran), le mode devient 'over'.
+            En mode over, le panneau latéral se superpose au contenu principal lorsque ouvert.
+            ---------------------
+            Si smallMode est false (grand écran), le mode devient 'side'. 
+            En mode side, le panneau latéral reste à côté du contenu principal lorsqu'il est ouvert.-->
+    <!--[opened] Cet attribut contrôle l'état d'ouverture/fermeture du panneau latéral.
+            ---------------------
+            Si smallMode est true (petit écran), le panneau est forcé à rester fermé en définissant opened sur 'false'.
+            ---------------------
+            Si smallMode est false (grand écran), le panneau est ouvert par défaut en définissant opened sur 'true'.-->
+    <mat-sidenav [ngClass]="!isCollapsed ? 'expanded' : ''" [mode]="smallMode ? 'over' : 'side'" [opened]="smallMode ? 'false' : 'true'">
+
+        <mat-nav-list>
+            <a mat-list-item>
+                <span class="entry" routerLink="/search">
+                    <mat-icon>filter_1</mat-icon>
+                    <span *ngIf="!isCollapsed">recherche data A</span>
+                </span>
+            </a>
+            <a mat-list-item>
+                <span class="entry" [matMenuTriggerFor]="submenu1">
+                    <mat-icon>filter_2</mat-icon>
+                    <span *ngIf="!isCollapsed">some data feature 1</span>
+                </span>
+
+                <mat-menu #submenu1="matMenu">
+                    <button mat-menu-item [matMenuTriggerFor]="submenu11">submenu 2</button>
+                    <button mat-menu-item><a routerLink="/someDataFeature1" routerLinkActive="active">call some data feature 1</a></button>
+                </mat-menu>
+
+
+                <mat-menu #submenu11="matMenu">
+                    <button mat-menu-item>submenu 1/1</button>
+                    <button mat-menu-item>submenu 1/2</button>
+                    <button mat-menu-item [matMenuTriggerFor]="submenu111">submenu 1/3</button>
+                </mat-menu>
+
+                <mat-menu #submenu111="matMenu">
+                    <button mat-menu-item>submenu 1/1/1</button>
+                    <button mat-menu-item>submenu 1/1/2</button>
+                    <button mat-menu-item disabled>submenu 1/1/3</button>
+                </mat-menu>
+
+            </a>
+            <a mat-list-item>
+                <span class="entry" [matMenuTriggerFor]="submenu1">
+                    <mat-icon>filter_3</mat-icon>
+                    <span *ngIf="!isCollapsed">some data feature 2</span>
+                </span>
+
+                <mat-menu #submenu1="matMenu">
+                    <button mat-menu-item [matMenuTriggerFor]="submenu11">submenu 1</button>
+                    <button mat-menu-item>submenu 2</button>
+                </mat-menu>
+
+
+                <mat-menu #submenu11="matMenu">
+                    <button mat-menu-item>submenu 1/1</button>
+                    <button mat-menu-item>submenu 1/2</button>
+                    <button mat-menu-item [matMenuTriggerFor]="submenu111">submenu 1/3</button>
+                </mat-menu>
+
+                <mat-menu #submenu111="matMenu">
+                    <button mat-menu-item>submenu 1/1/1</button>
+                    <button mat-menu-item>submenu 1/1/2</button>
+                    <button mat-menu-item disabled>submenu 1/1/3</button>
+                </mat-menu>
+
+            </a>
+        </mat-nav-list>
+
+
+
+    </mat-sidenav>
+
+
+    <mat-sidenav-content>
+        <h2>Content</h2>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+
+</mat-sidenav-container>
+
+<!-- <app-search-data></app-search-data> -->

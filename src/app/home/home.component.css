@@ -1,0 +1,55 @@
+h1 {
+    padding: 0 1rem;
+}
+
+h2 {
+    padding: 1rem;
+}
+
+mat-toolbar {
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+
+mat-sidenav-container {
+    height: 100%;
+}
+
+/* Move the content down so that it won't be hidden by the toolbar */
+mat-sidenav {
+    padding-top: 3.5rem;
+
+    @media screen and (min-width: 600px) {
+        padding-top: 4rem;
+    }
+
+    .entry {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem;
+    }
+}
+
+.mat-sidenav .mat-menu-content {
+    background-color: #fff;
+    /* Or your desired background color */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* Add a subtle shadow */
+    padding: 10px;
+    /* Adjust padding as needed */
+}
+
+/* Move the content down so that it won't be hidden by the toolbar */
+mat-sidenav-content {
+    padding-top: 3.5rem;
+
+    @media screen and (min-width: 600px) {
+        padding-top: 4rem;
+    }
+}
+
+.expanded {
+    width: 250px;
+}
