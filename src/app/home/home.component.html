@@ -23,12 +23,14 @@
     <mat-sidenav [ngClass]="!isCollapsed ? 'expanded' : ''" [mode]="smallMode ? 'over' : 'side'" [opened]="smallMode ? 'false' : 'true'">
 
         <mat-nav-list>
+
             <a mat-list-item>
                 <span class="entry" routerLink="/search">
                     <mat-icon>filter_1</mat-icon>
                     <span *ngIf="!isCollapsed">recherche data A</span>
                 </span>
             </a>
+
             <a mat-list-item>
                 <span class="entry" [matMenuTriggerFor]="submenu1">
                     <mat-icon>filter_2</mat-icon>
@@ -39,7 +41,6 @@
                     <button mat-menu-item [matMenuTriggerFor]="submenu11">submenu 2</button>
                     <button mat-menu-item><a routerLink="/someDataFeature1" routerLinkActive="active">call some data feature 1</a></button>
                 </mat-menu>
-
 
                 <mat-menu #submenu11="matMenu">
                     <button mat-menu-item>submenu 1/1</button>
@@ -54,7 +55,9 @@
                 </mat-menu>
 
             </a>
+
             <a mat-list-item>
+
                 <span class="entry" [matMenuTriggerFor]="submenu1">
                     <mat-icon>filter_3</mat-icon>
                     <span *ngIf="!isCollapsed">some data feature 2</span>
@@ -64,7 +67,6 @@
                     <button mat-menu-item [matMenuTriggerFor]="submenu11">submenu 1</button>
                     <button mat-menu-item>submenu 2</button>
                 </mat-menu>
-
 
                 <mat-menu #submenu11="matMenu">
                     <button mat-menu-item>submenu 1/1</button>
@@ -81,13 +83,9 @@
             </a>
         </mat-nav-list>
 
-
-
     </mat-sidenav>
 
-
     <mat-sidenav-content>
-        <h2>Content</h2>
         <router-outlet></router-outlet>
     </mat-sidenav-content>
 
