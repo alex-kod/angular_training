@@ -1,0 +1,15 @@
+table {
+    width: 100%;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}
+
+.material-icons.sm-9 {
+    font-size: 9px;
+}
+
+.material-icons.md-12 {
+    font-size: 12px;
+}

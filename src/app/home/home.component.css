@@ -53,3 +53,10 @@ mat-sidenav-content {
 .expanded {
     width: 250px;
 }
+
+a {
+    /* pointer-events: none; */
+    cursor: default;
+    text-decoration: none;
+    color: black;
+}
