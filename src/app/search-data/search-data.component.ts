@@ -20,6 +20,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { DataDetailComponent } from '../data-detail/data-detail.component';
 
 export interface PeriodicElement {
   name: string;
@@ -48,13 +49,14 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl' },
   { position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar' },
   { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
-  { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
 ];
 
 @Component({
   selector: 'app-search-data',
   standalone: true,
   providers: [provideNativeDateAdapter()],
+  templateUrl: './search-data.component.html',
+  styleUrl: './search-data.component.css',
   imports: [
     MatListModule,
     MatInputModule,
@@ -74,16 +76,15 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatPaginatorModule,
     MatSort,
     MatSortModule,
+    DataDetailComponent,
   ],
-  templateUrl: './search-data.component.html',
-  styleUrl: './search-data.component.css',
 })
 export class SearchDataComponent {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  columns: string[] = ['position', 'name', 'weight', 'symbol'];
+  columns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
