@@ -116,4 +116,8 @@ export class SearchDataComponent {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
+
+  editRow(element: PeriodicElement) {
+    console.log(element.name);
+  }
 }
