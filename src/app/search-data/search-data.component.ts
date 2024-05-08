@@ -101,6 +101,7 @@ export class SearchDataComponent {
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.columns, event.previousIndex, event.currentIndex);
+    console.log(this.columns);
   }
 
   announceSortChange(sortState: Sort) {

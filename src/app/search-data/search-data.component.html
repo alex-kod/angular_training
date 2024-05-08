@@ -15,21 +15,25 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <mat-form-field>
-            <mat-label>name</mat-label>
-            <input matInput>
-        </mat-form-field>
+        <!-- <mat-label>name</mat-label> -->
+        <p>
+            <mat-form-field>
+                <mat-label>name</mat-label>
+                <input matInput>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field>
+                <mat-label>weight</mat-label>
+                <input matInput type="number" min="1">
+            </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>weight</mat-label>
-            <input matInput type="number" min="1">
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>symbol</mat-label>
-            <input matInput>
-        </mat-form-field>
-
+            <!-- <mat-divider></mat-divider> -->
+            <mat-form-field>
+                <mat-label>symbol</mat-label>
+                <input matInput>
+            </mat-form-field>
+        </p>
         <!-- <mat-form-field>
             <mat-label>Date</mat-label>
             <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly>
@@ -54,7 +58,9 @@
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" matSort matSortDisableClear matSortDirection="desc" (matSortChange)="announceSortChange($event)">
 
             @for (column of columns; track column) {
+
             <ng-container [matColumnDef]="column">
+
                 @if(column !='action'){
                 <th mat-header-cell cdkDrag *matHeaderCellDef mat-sort-header arrowPosition="after">
                     <i class="material-icons md-12">drag_indicator</i>
