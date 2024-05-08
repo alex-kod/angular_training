@@ -73,7 +73,9 @@
                     </span>
                 </th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-raised-button (click)="editRow(element)">Détail</button> <!--{{element[column]}}-->
+                    <button mat-icon-button matTooltip="Edit" (click)="editRow(element)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
                 </td>
                 }
 
@@ -97,7 +99,7 @@
             <br />
         </mat-expansion-panel-header>
 
-        <app-data-detail></app-data-detail>
+        <app-data-detail [editingElement]="editingElement"> </app-data-detail>
 
     </mat-expansion-panel>
 </mat-accordion>

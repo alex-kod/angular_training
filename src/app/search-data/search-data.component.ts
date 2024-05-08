@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, ViewChild } from '@angular/core';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -87,6 +87,9 @@ export class SearchDataComponent {
   columns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
+  elementName!: string;
+  searchDataComponent: any;
+  router: any;
   constructor(private _liveAnnouncer: LiveAnnouncer) {}
 
   removeColumn(colonneASupprimer: string) {
@@ -117,7 +120,9 @@ export class SearchDataComponent {
     this.dataSource.paginator = this.paginator;
   }
 
+  editingElement!: PeriodicElement;
   editRow(element: PeriodicElement) {
-    console.log(element.name);
+    this.editingElement = element;
+    console.log('Edition élément : ' + element);
   }
 }
