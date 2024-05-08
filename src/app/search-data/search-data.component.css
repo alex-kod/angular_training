@@ -13,3 +13,25 @@ th.mat-sort-header-sorted {
 .material-icons.md-12 {
     font-size: 12px;
 }
+
+
+  .grid { 
+    display: grid;
+    grid-gap: 2vw;
+    /* border: 1px solid black; */
+    /* margin: 10px; */
+    }
+
+  .grid > div {
+    font-size: 5vw;
+    /* padding: .5em; */
+    /* background: gold; */
+    text-align: center;
+  }
+  .grid > div > p {
+    text-align: left;
+  }
+
+  .auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
