@@ -3,7 +3,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
-import { PeriodicElement } from '../interfaces/interfaces';
+import { PeriodicElement } from '../../interfaces/interfaces';
 
 @Component({
   selector: 'app-data-detail',

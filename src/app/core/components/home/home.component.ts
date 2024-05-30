@@ -7,7 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatMenuModule } from '@angular/material/menu';
-import { SearchDataComponent } from '../search-data/search-data.component';
+import { SearchDataComponent } from '../../../datas/components/search-data/search-data.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({

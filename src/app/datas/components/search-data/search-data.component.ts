@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
-import { Component, EventEmitter, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -21,6 +21,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { DataDetailComponent } from '../data-detail/data-detail.component';
+import { MaterialTableComponent } from '../../../shared/components/material-table/material-table.component';
 
 export interface PeriodicElement {
   name: string;
@@ -77,6 +78,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatSort,
     MatSortModule,
     DataDetailComponent,
+    MaterialTableComponent
   ],
 })
 export class SearchDataComponent {

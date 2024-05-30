@@ -15,8 +15,6 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
 
-
-
         <div class="grid auto-fit">
             <div>
                 <p>
@@ -100,8 +98,10 @@
             </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements">
-        </mat-paginator>
+       <!--todo params-->
+        <app-material-table></app-material-table>
+        <!-- <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements"> -->
+        <!-- </mat-paginator>
 
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" cdkDropList cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" matSort matSortDisableClear matSortDirection="desc" (matSortChange)="announceSortChange($event)">
 
@@ -138,7 +138,7 @@
 
             <tr mat-header-row *matHeaderRowDef="columns"></tr>
             <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-        </table>
+        </table> -->
 
     </mat-expansion-panel>
 
