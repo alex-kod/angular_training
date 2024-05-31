@@ -4,3 +4,11 @@ export interface PeriodicElement {
   weight: number;
   symbol: string;
 }
+
+export interface SolarSystemElement {
+  name: string;
+  position: number;
+  type: string;
+  weight: string;
+  size: string;
+}

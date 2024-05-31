@@ -1,37 +1,38 @@
 table {
-    width: 100%;
+  width: 100%;
 }
 
 th.mat-sort-header-sorted {
-    color: black;
+  color: black;
 }
 
 .material-icons.sm-9 {
-    font-size: 9px;
+  font-size: 9px;
 }
 
 .material-icons.md-12 {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 
-  .grid { 
-    display: grid;
-    grid-gap: 2vw;
-    /* border: 1px solid black; */
-    /* margin: 10px; */
-    }
+.grid {
+  display: grid;
+  grid-gap: 2vw;
+  /* border: 1px solid black; */
+  /* margin: 10px; */
+}
 
-  .grid > div {
-    font-size: 5vw;
-    /* padding: .5em; */
-    /* background: gold; */
-    text-align: center;
-  }
-  .grid > div > p {
-    text-align: left;
-  }
+.grid>div {
+  font-size: 5vw;
+  /* padding: .5em; */
+  /* background: gold; */
+  text-align: center;
+}
 
-  .auto-fit {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  }
+.grid>div>p {
+  text-align: left;
+}
+
+.auto-fit {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}

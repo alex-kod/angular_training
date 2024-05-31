@@ -4,14 +4,6 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
 import { Component, ViewChild } from '@angular/core';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
-import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import {
-  CdkDragDrop,
-  CdkDrag,
-  CdkDropList,
-  moveItemInArray,
-} from '@angular/cdk/drag-drop';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,9 +11,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { DataDetailComponent } from '../data-detail/data-detail.component';
 import { MaterialTableComponent } from '../../../shared/components/material-table/material-table.component';
+import { SolarSystemElement } from '../../interfaces/interfaces';
 
 export interface PeriodicElement {
   name: string;
@@ -52,6 +44,65 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
 ];
 
+const PLANET_DATA: SolarSystemElement[] = [
+  {
+    position: 1,
+    name: "Mercure",
+    weight: "0,3301 × 10^24 kg",
+    type: "tellurique",
+    size: "4 880 km"
+  },
+  {
+    position: 2,
+    name: "Vénus",
+    weight: "4,867 × 10^24 kg",
+    type: "tellurique",
+    size: "12 104 km"
+  },
+  {
+    position: 1,
+    name: "Terre",
+    weight: "5,9742 × 10^24 kg",
+    type: "tellurique",
+    size: "12 742 km"
+  },
+  {
+    position: 1,
+    name: "Mars",
+    weight: "6,421 × 10^23 kg",
+    type: "tellurique",
+    size: "6 779 km"
+  },
+  {
+    position: 1,
+    name: "Jupiter",
+    weight: "1,8986 × 10^27 kg",
+    type: "gazeuse",
+    size: "142 984 km"
+  },
+  {
+    position: 1,
+    name: "Saturne",
+    weight: "5,6834 × 10^26 kg",
+    type: "gazeuse",
+    size: "120 536 km"
+  },
+  {
+    position: 1,
+    name: "Uranus",
+    weight: "8,6832 × 10^25 kg",
+    type: "gazeuse",
+    size: "51 118 km"
+  },
+  {
+    position: 1,
+    name: "Neptune",
+    weight: "1,0835 × 10^26 kg",
+    type: "gazeuse",
+    size: "49 528 km"
+  }
+]
+
 @Component({
   selector: 'app-search-data',
   standalone: true,
@@ -71,12 +122,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
     MatIconModule,
     MatDatepickerModule,
     MatTableModule,
-    CdkDropList,
-    CdkDrag,
-    MatPaginator,
-    MatPaginatorModule,
-    MatSort,
-    MatSortModule,
     DataDetailComponent,
     MaterialTableComponent
   ],
@@ -88,6 +133,9 @@ export class SearchDataComponent {
   columns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
+
+  columns2: string[] = ['position', 'name', 'weight', 'type', 'size', 'action'];
+  dataSource2 = new MatTableDataSource(PLANET_DATA);
 
   editingElement!: PeriodicElement;
 
