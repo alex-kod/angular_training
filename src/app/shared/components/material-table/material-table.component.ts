@@ -30,6 +30,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './material-table.component.html',
   styleUrl: './material-table.component.css'
 })
+
 export class MaterialTableComponent {
   //----------------------------
   @Input() columns!: string[];
