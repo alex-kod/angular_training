@@ -83,49 +83,18 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class SearchDataComponent {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
 
+  // defautlColumns: string[] = ['position', 'name', 'weight', 'symbol', 'action']; // toutes les colonnes par défaut
   columns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
 
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-  elementName!: string;
-  searchDataComponent: any;
-  router: any;
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
-
-  removeColumn(colonneASupprimer: string) {
-    let index = this.columns.indexOf(colonneASupprimer);
-    console.log('index colonne supprimé : ' + index);
-    this.columns.splice(index, 1);
-    console.log(this.columns);
-  }
-
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.columns, event.previousIndex, event.currentIndex);
-    console.log(this.columns);
-  }
-
-  announceSortChange(sortState: Sort) {
-    // This example uses English messages. If your application supports
-    // multiple language, you would internationalize these strings.
-    // Furthermore, you can customize the message to add additional
-    // details about the values being sorted.
-    if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-    } else {
-      this._liveAnnouncer.announce('Sorting cleared');
-    }
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-  }
 
   editingElement!: PeriodicElement;
-  editRow(element: PeriodicElement) {
+
+  onRowEdited(element: any) {
+    console.log('Edition élément', element);
     this.editingElement = element;
-    console.log('Edition élément : ' + element);
   }
+
+
 }
