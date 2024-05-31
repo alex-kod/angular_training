@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { DataDetailComponent } from '../data-detail/data-detail.component';
 import { MaterialTableComponent } from '../../../shared/components/material-table/material-table.component';
@@ -121,7 +121,7 @@ const PLANET_DATA: SolarSystemElement[] = [
     MatExpansionModule,
     MatIconModule,
     MatDatepickerModule,
-    MatTableModule,
+    // MatTableModule,
     DataDetailComponent,
     MaterialTableComponent
   ],
