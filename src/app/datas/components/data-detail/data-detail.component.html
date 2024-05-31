@@ -1,16 +1,27 @@
 @if(editingElement){
+
+@for(key of editingElement | objectKeys; track editingElement){
+
+@if ((editingElement[key] | typeOf)=== 'number'){
+
+<mat-form-field>
+    <mat-label>{{ key }}</mat-label>
+    <input matInput type="number" min="1" value="{{ editingElement[key] }}">
+</mat-form-field>
+
+}@else if ((editingElement[key] | typeOf)=== 'string') {
+
 <mat-form-field>
     <mat-label>name</mat-label>
-    <input matInput value="{{editingElement.name}}">
+    <input matInput value="{{editingElement[key]}}">
 </mat-form-field>
 
-<mat-form-field>
-    <mat-label>weight</mat-label>
-    <input matInput type="number" min="1" value="{{editingElement.weight}}">
-</mat-form-field>
+}@else if ((editingElement[key] | typeOf)=== 'boolean') {
 
-<mat-form-field>
-    <mat-label>symbol</mat-label>
-    <input matInput value="{{editingElement.symbol}}">
-</mat-form-field>
+todo
+
+}
+
+}
+
 }

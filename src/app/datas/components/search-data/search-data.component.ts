@@ -127,16 +127,15 @@ const PLANET_DATA: SolarSystemElement[] = [
   ],
 })
 export class SearchDataComponent {
+  //----------------------------
   @ViewChild(MatAccordion) accordion!: MatAccordion;
-
-  // defautlColumns: string[] = ['position', 'name', 'weight', 'symbol', 'action']; // toutes les colonnes par défaut
+  //----------------------------
   columns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
-
   dataSource = new MatTableDataSource(ELEMENT_DATA);
-
+  //----------------------------
   columns2: string[] = ['position', 'name', 'weight', 'type', 'size', 'action'];
   dataSource2 = new MatTableDataSource(PLANET_DATA);
-
+  //----------------------------
   editingElement!: PeriodicElement;
 
   onRowEdited(element: any) {

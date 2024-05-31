@@ -105,21 +105,26 @@
         <app-material-table [columns]="columns" [dataSource]="dataSource" (editRow)="onRowEdited($event)"></app-material-table>
         
         <app-material-table [columns]="columns2" [dataSource]="dataSource2" (editRow)="onRowEdited($event)"></app-material-table>
-        
+
     </mat-expansion-panel>
 
     <mat-expansion-panel>
+
         <mat-expansion-panel-header>
+
             <mat-panel-title>
                 Détail d'un élément
             </mat-panel-title>
+
             <mat-panel-description>
                 Détail d'un élément
             </mat-panel-description>
+
             <br />
+
         </mat-expansion-panel-header>
 
-        <!-- <app-data-detail [editingElement]="editingElement"> </app-data-detail> -->
+        <app-data-detail [editingElement]="editingElement"> </app-data-detail>
 
     </mat-expansion-panel>
 </mat-accordion>
