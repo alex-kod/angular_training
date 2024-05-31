@@ -7,84 +7,77 @@
     <mat-expansion-panel>
 
         <mat-expansion-panel-header>
+
             <mat-panel-title>
                 Critères de recherche
             </mat-panel-title>
+
             <mat-panel-description>
                 Critères de recherche
             </mat-panel-description>
+
         </mat-expansion-panel-header>
 
         <div class="grid auto-fit">
+
             <div>
-                <p>
-                    <mat-form-field appearance="outline">
-                        <mat-label>name</mat-label>
-                        <input matInput>
-                    </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>name</mat-label>
+                    <input matInput>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>symbol</mat-label>
+                    <input matInput>
+                </mat-form-field>
 
-                    <span>&nbsp;</span>
+                <br>
 
-                    <!-- <mat-divider></mat-divider> -->
-                    <mat-form-field appearance="outline">
-                        <mat-label>symbol</mat-label>
-                        <input matInput>
-                    </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>name</mat-label>
+                    <input matInput>
+                </mat-form-field>
+               
+                <mat-form-field appearance="outline">
+                    <mat-label>symbol</mat-label>
+                    <input matInput>
+                </mat-form-field>
 
-                    <br>
+                <br>
 
-                    <mat-form-field appearance="outline">
-                        <mat-label>name</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-
-                    <span>&nbsp;</span>
-
-                    <!-- <mat-divider></mat-divider> -->
-                    <mat-form-field appearance="outline">
-                        <mat-label>symbol</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <br>
-
-                    <mat-form-field appearance="outline">
-                        <mat-label>name</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-
-                    <span>&nbsp;</span>
-
-                    <!-- <mat-divider></mat-divider> -->
-                    <mat-form-field appearance="outline">
-                        <mat-label>symbol</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-
-                </p>
+                <mat-form-field appearance="outline">
+                    <mat-label>name</mat-label>
+                    <input matInput>
+                </mat-form-field>
+              
+                <mat-form-field appearance="outline">
+                    <mat-label>symbol</mat-label>
+                    <input matInput>
+                </mat-form-field>
             </div>
+
             <div>
-                <p>
 
-                    <mat-form-field appearance="outline">
-                        <mat-label>weight</mat-label>
-                        <input matInput type="number" min="1" placeholder="1">
-                    </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>weight</mat-label>
+                    <input matInput type="number" min="1" placeholder="1">
+                </mat-form-field>
 
-                    <span>&nbsp;</span>
+                <!-- <mat-divider></mat-divider> -->
+                <mat-form-field appearance="outline">
+                    <mat-label>symbol</mat-label>
+                    <input matInput>
+                </mat-form-field>
 
-                    <!-- <mat-divider></mat-divider> -->
-                    <mat-form-field appearance="outline">
-                        <mat-label>symbol</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                </p>
                 <!-- <mat-form-field>
                 <mat-label>Date</mat-label>
                 <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly>
             </mat-form-field>
             <mat-datepicker #picker></mat-datepicker> -->
             </div>
+
         </div>
+
     </mat-expansion-panel>
 
     <mat-expansion-panel>
@@ -103,7 +96,7 @@
         </mat-expansion-panel-header>
 
         <app-material-table [columns]="columns" [dataSource]="dataSource" (editRow)="onRowEdited($event)"></app-material-table>
-        
+
         <app-material-table [columns]="columns2" [dataSource]="dataSource2" (editRow)="onRowEdited($event)"></app-material-table>
 
     </mat-expansion-panel>
@@ -127,4 +120,5 @@
         <app-data-detail [editingElement]="editingElement"> </app-data-detail>
 
     </mat-expansion-panel>
+
 </mat-accordion>
