@@ -12,7 +12,8 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { DataDetailComponent } from '../data-detail/data-detail.component';
-import { MaterialTableComponent } from '../../../shared/components/material-table/material-table.component';
+import {MaterialInputTextComponent} from '../../../shared/forms/components/material-input-text/material-input-text.component';
+import { MaterialTableComponent } from '../../../shared/forms/components/material-table/material-table.component';
 import { SolarSystemElement } from '../../interfaces/interfaces';
 
 export interface PeriodicElement {
@@ -121,9 +122,10 @@ const PLANET_DATA: SolarSystemElement[] = [
     MatExpansionModule,
     MatIconModule,
     MatDatepickerModule,
-    // MatTableModule,
+    //-----composants spécifiques réutilisable
     DataDetailComponent,
-    MaterialTableComponent
+    MaterialTableComponent,
+    MaterialInputTextComponent
   ],
 })
 export class SearchDataComponent {
