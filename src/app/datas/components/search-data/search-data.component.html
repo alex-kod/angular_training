@@ -20,16 +20,19 @@
 
         <div class="grid auto-fit">
 
-            <div>
-                <app-material-input-text></app-material-input-text>
-                <br>
-                <app-material-input-text></app-material-input-text>
-            </div>
+            <!-- formulaire "standard"-->
+            <form [formGroup]="simpleForm">
 
-            <div>
-                <app-material-input-text></app-material-input-text>
-                <!--todo autres balise -->
-            </div>
+                <mat-form-field>
+                    <mat-label>Titre</mat-label>
+                    <input matInput type="text" formControlName="title" placeholder="Titre">
+                </mat-form-field>
+
+                <div class="action-buttons">
+                    <button type="submit" (click)="onSubmitForm()" [disabled]="simpleForm.invalid">Enregistrer</button>
+                </div>
+
+            </form>
 
         </div>
 

@@ -1,20 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
-import { FormsModule } from '@angular/forms';
-import { Component, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+
 import { MatIconModule } from '@angular/material/icon';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { DataDetailComponent } from '../data-detail/data-detail.component';
-import {MaterialInputTextComponent} from '../../../shared/forms/components/material-input-text/material-input-text.component';
 import { MaterialTableComponent } from '../../../shared/forms/components/material-table/material-table.component';
 import { SolarSystemElement } from '../../interfaces/interfaces';
+
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 export interface PeriodicElement {
   name: string;
@@ -122,28 +123,64 @@ const PLANET_DATA: SolarSystemElement[] = [
     MatExpansionModule,
     MatIconModule,
     MatDatepickerModule,
+    ReactiveFormsModule,
     //-----composants spécifiques réutilisable
     DataDetailComponent,
     MaterialTableComponent,
-    MaterialInputTextComponent
   ],
 })
-export class SearchDataComponent {
+export class SearchDataComponent implements OnInit {
+  
+  constructor(private formBuilder: FormBuilder) { }
+
   //----------------------------
   @ViewChild(MatAccordion) accordion!: MatAccordion;
+
   //----------------------------
   columns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
+
   //----------------------------
   columns2: string[] = ['position', 'name', 'weight', 'type', 'size', 'action'];
   dataSource2 = new MatTableDataSource(PLANET_DATA);
+
   //----------------------------
+  simpleForm!: FormGroup;
+  urlRegex!: RegExp;
   editingElement!: PeriodicElement;
 
+  //----------------------------
   onRowEdited(element: any) {
     console.log('Edition élément', element);
     this.editingElement = element;
   }
 
+  labelTitre!:string;
+  formControlNameTitre!:string;
+
+  ngOnInit(): void {
+    this.labelTitre="test";
+    this.formControlNameTitre="title";
+    // this.urlRegex = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+
+    /*Les Validators sont des fonctions, mais attention à ne pas mettre les parenthèses  ()  . 
+    Par exemple, ne mettez pas  Validators.required(), mais bien  Validators.required. 
+    On passe la fonction comme argument – on ne l'appelle pas.*/
+    this.simpleForm = this.formBuilder.group({
+      title: [null, [Validators.required]],
+  
+      // imageUrl: [null, [Validators.required, Validators.pattern(this.urlRegex)]],
+    }, {
+      updateOn: 'blur'  /*uniquement lorsque l'utilisateur change de champ, c'est-à-dire lors du  blur  des différents champs.*/
+    });
+
+
+  }
+
+  onSubmitForm() {
+    console.log(this.simpleForm.value);
+  }
 
 }
+
+
