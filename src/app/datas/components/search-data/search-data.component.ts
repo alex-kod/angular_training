@@ -24,7 +24,7 @@ export interface PeriodicElement {
   symbol: string;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
+const MOCK_DATABASE_ELEMENT_DATA: PeriodicElement[] = [
   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
   { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
   { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
@@ -46,7 +46,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
 ];
 
-const PLANET_DATA: SolarSystemElement[] = [
+const MOCK_DATABASE_PLANET_DATA: SolarSystemElement[] = [
   {
     position: 1,
     name: "Mercure",
@@ -130,7 +130,7 @@ const PLANET_DATA: SolarSystemElement[] = [
   ],
 })
 export class SearchDataComponent implements OnInit {
-  elements = ELEMENT_DATA;
+  elements = MOCK_DATABASE_ELEMENT_DATA;
   constructor(private formBuilder: FormBuilder) { }
 
   //----------------------------
@@ -138,11 +138,11 @@ export class SearchDataComponent implements OnInit {
 
   //----------------------------
   columns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource = new MatTableDataSource(MOCK_DATABASE_ELEMENT_DATA);
 
   //----------------------------
   columns2: string[] = ['position', 'name', 'weight', 'type', 'size', 'action'];
-  dataSource2 = new MatTableDataSource(PLANET_DATA);
+  dataSource2 = new MatTableDataSource(MOCK_DATABASE_PLANET_DATA);
 
   //----------------------------
   simpleForm!: FormGroup;
@@ -179,7 +179,7 @@ export class SearchDataComponent implements OnInit {
 
   filterElements() {
     const name = this.simpleForm.value.name.toLowerCase();
-    this.elements   = ELEMENT_DATA.filter(element =>
+    this.elements   = MOCK_DATABASE_ELEMENT_DATA.filter(element =>
       element.name.toLowerCase().includes(name) 
     );
     this.dataSource.data =this.elements ;
