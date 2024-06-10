@@ -20,16 +20,24 @@
 
         <div class="grid auto-fit">
 
+            <!-- =================================================================================================-->
+             <!--                          GESTION CRITERE RECHERCHE                           -->
+            <!-- =================================================================================================-->
             <!-- formulaire "standard"-->
             <form [formGroup]="simpleForm">
 
                 <mat-form-field>
-                    <mat-label>Titre</mat-label>
-                    <input matInput type="text" formControlName="title" placeholder="Titre">
+                    <mat-label>Name</mat-label>
+                    <input matInput type="text" formControlName="name" placeholder="Name">
                 </mat-form-field>
 
+                <!-- <mat-form-field>
+                    <mat-label>Symbol</mat-label>
+                    <input matInput type="text" formControlName="symbol" placeholder="Symbol">
+                </mat-form-field> -->
+
                 <div class="action-buttons">
-                    <button type="submit" (click)="onSubmitForm()" [disabled]="simpleForm.invalid">Enregistrer</button>
+                    <button type="submit" (click)="onSubmitForm()" [disabled]="simpleForm.invalid">rechercher</button>
                 </div>
 
             </form>
@@ -39,9 +47,7 @@
     </mat-expansion-panel>
 
     <mat-expansion-panel>
-
         <mat-expansion-panel-header>
-
             <mat-panel-title>
                 Resultat de la recherche
             </mat-panel-title>

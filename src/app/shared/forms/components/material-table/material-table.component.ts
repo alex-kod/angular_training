@@ -1,6 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
@@ -42,7 +42,7 @@ export class MaterialTableComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private _liveAnnouncer: LiveAnnouncer) { }
-
+ 
   onColumnRemoved(column: string) {
     console.log('Column removed', column);
     this.columns = this.columns.filter(col => col !== column);

@@ -130,7 +130,7 @@ const PLANET_DATA: SolarSystemElement[] = [
   ],
 })
 export class SearchDataComponent implements OnInit {
-  
+  elements = ELEMENT_DATA;
   constructor(private formBuilder: FormBuilder) { }
 
   //----------------------------
@@ -159,17 +159,12 @@ export class SearchDataComponent implements OnInit {
   formControlNameTitre!:string;
 
   ngOnInit(): void {
-    this.labelTitre="test";
-    this.formControlNameTitre="title";
-    // this.urlRegex = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
 
     /*Les Validators sont des fonctions, mais attention à ne pas mettre les parenthèses  ()  . 
     Par exemple, ne mettez pas  Validators.required(), mais bien  Validators.required. 
     On passe la fonction comme argument – on ne l'appelle pas.*/
     this.simpleForm = this.formBuilder.group({
-      title: [null, [Validators.required]],
-  
-      // imageUrl: [null, [Validators.required, Validators.pattern(this.urlRegex)]],
+      name: [null, [Validators.required]],
     }, {
       updateOn: 'blur'  /*uniquement lorsque l'utilisateur change de champ, c'est-à-dire lors du  blur  des différents champs.*/
     });
@@ -179,6 +174,15 @@ export class SearchDataComponent implements OnInit {
 
   onSubmitForm() {
     console.log(this.simpleForm.value);
+    this.filterElements();
+  }
+
+  filterElements() {
+    const name = this.simpleForm.value.name.toLowerCase();
+    this.elements   = ELEMENT_DATA.filter(element =>
+      element.name.toLowerCase().includes(name) 
+    );
+    this.dataSource.data =this.elements ;
   }
 
 }
