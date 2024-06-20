@@ -12,3 +12,12 @@ export interface SolarSystemElement {
   weight: string;
   size: string;
 }
+
+export interface CodificationElement {
+  code_a: string;
+  code_b: string;
+  code_c: string;
+  code_d: string;
+  data_codif: string;
+}
+

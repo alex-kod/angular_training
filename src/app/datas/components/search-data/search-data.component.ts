@@ -1,28 +1,39 @@
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-
+import { MatSelectModule } from '@angular/material/select'
 import { MatIconModule } from '@angular/material/icon';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { DataDetailComponent } from '../data-detail/data-detail.component';
 import { MaterialTableComponent } from '../../../shared/forms/components/material-table/material-table.component';
-import { SolarSystemElement } from '../../interfaces/interfaces';
+import { CodificationElement, PeriodicElement, SolarSystemElement } from '../../interfaces/interfaces';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+
+
+const MOCK_DATABASE_CODIFICATION: CodificationElement[] = [
+  { code_a: 'code_a_1', code_b: 'code_b_1', code_c: 'code_c_1', code_d: 'code_d_1', data_codif: 'data_codif_1' },
+  { code_a: 'code_a_1', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_2', data_codif: 'data_codif_2' },
+  { code_a: 'code_a_1', code_b: 'code_b_3', code_c: 'code_c_3', code_d: 'code_d_2', data_codif: 'data_codif_3' },
+  { code_a: 'code_a_1', code_b: 'code_b_1', code_c: 'code_c_3', code_d: 'code_d_3', data_codif: 'data_codif_4' },
+  { code_a: 'code_a_1', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_4', data_codif: 'data_codif_5' },
+  { code_a: 'code_a_1', code_b: 'code_b_3', code_c: 'code_c_1', code_d: 'code_d_5', data_codif: 'data_codif_6' },
+  //-----------------------------------------------
+  { code_a: 'code_a_2', code_b: 'code_b_1', code_c: 'code_c_1', code_d: 'code_d_5', data_codif: 'data_codif_7' },
+  { code_a: 'code_a_2', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_2', data_codif: 'data_codif_8' },
+  { code_a: 'code_a_2', code_b: 'code_b_3', code_c: 'code_c_3', code_d: 'code_d_2', data_codif: 'data_codif_9' },
+  { code_a: 'code_a_2', code_b: 'code_b_4', code_c: 'code_c_1', code_d: 'code_d_3', data_codif: 'data_codif_10' },
+  { code_a: 'code_a_2', code_b: 'code_b_5', code_c: 'code_c_2', code_d: 'code_d_3', data_codif: 'data_codif_11' },
+  { code_a: 'code_a_2', code_b: 'code_b_6', code_c: 'code_c_3', code_d: 'code_d_1', data_codif: 'data_codif_12' },
+];
 
 const MOCK_DATABASE_ELEMENT_DATA: PeriodicElement[] = [
   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
@@ -124,6 +135,7 @@ const MOCK_DATABASE_PLANET_DATA: SolarSystemElement[] = [
     MatIconModule,
     MatDatepickerModule,
     ReactiveFormsModule,
+    MatSelectModule,
     //-----composants spécifiques réutilisable
     DataDetailComponent,
     MaterialTableComponent,
@@ -135,6 +147,79 @@ export class SearchDataComponent implements OnInit {
 
   //----------------------------
   @ViewChild(MatAccordion) accordion!: MatAccordion;
+
+  //----------------------------
+  codificationData: CodificationElement[] = MOCK_DATABASE_CODIFICATION;
+
+  codeAOptions: string[] = []; // Options for code_a dropdown
+  selectedCodeA!: string;
+
+  codeBOptions: string[] = []; // Options for code_b dropdown
+  selectedCodeB!: string;
+
+  // codeCOptions: string[] = []; // Options for code_C dropdown
+  // selectedCodeC!: string;
+
+  // codeDOptions: string[] = []; // Options for code_d dropdown
+  // selectedCodeD!: string;
+
+  // dataCodifOptions: string[] = []; // Options for data_codif dropdown
+  // selectedDataCodif!: string;
+
+  getUniqueOptions(data: any[], property: string): string[] {
+    const uniqueSet = new Set(data.map(element => element[property]));
+    return Array.from(uniqueSet);
+  }
+
+  initDropDown() {
+    this.codeAOptions = this.getUniqueOptions(this.codificationData, 'code_a');
+    //------------------------------
+    this.codeBOptions = this.getUniqueOptions(this.codificationData, 'code_b');
+    // //-----------------------------
+    // this.codeCOptions = this.getUniqueOptions(this.codificationData, 'code_c');
+    // //------------------------------
+    // this.codeDOptions = this.getUniqueOptions(this.codificationData, 'code_d');
+    // //------------------------------
+    // this.dataCodifOptions = this.getUniqueOptions(this.codificationData, 'data_codif');
+  }
+
+  getUniqueFiltredOptions(data: any[], dropdownOrigin: string, property: string, selectedCode: string): string[] {
+    const uniqueSet = new Set(
+      data
+        .filter(element => element[dropdownOrigin] === selectedCode)
+        .map(element => element[property]));
+    console.log("uniqueSet : " + Array.from(uniqueSet));
+    return Array.from(uniqueSet);
+  }
+
+
+  trigerfilterCodeOptions(dropdownOrigin: string, selectedCode: string) {
+
+    console.log("dropdownOrigin : " + dropdownOrigin);
+    console.log("selectedCode : " + selectedCode);
+
+
+    console.log("==> populateCodeAOptions");
+    this.codeAOptions = this.getUniqueFiltredOptions(this.codificationData, dropdownOrigin, 'code_a', selectedCode)
+    if (this.codeAOptions.length < 2) {//uniquement si valeur unique
+      this.selectedCodeA = selectedCode;
+      console.log("-> set selectedCodeA : "+this.codeAOptions[0]);
+    }
+
+    console.log("==> populateCodeBOptions");
+    this.codeBOptions = this.getUniqueFiltredOptions(this.codificationData, dropdownOrigin, 'code_b', selectedCode)
+    if (this.codeBOptions.length < 2) {//uniquement si valeur unique
+      this.selectedCodeB = selectedCode;
+      console.log("-> set selectedCodeB : "+this.codeBOptions[0]);
+    }
+
+
+    console.log("========");
+    // this.codeCOptions = this.getUniqueFiltredOptions(this.codificationData, 'code_c', selectedCode)
+    // this.codeDOptions = this.getUniqueFiltredOptions(this.codificationData, 'code_d', selectedCode)
+    // this.dataCodifOptions = this.getUniqueFiltredOptions(this.codificationData, 'data_codif', selectedCode)
+
+  }
 
   //----------------------------
   columns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
@@ -155,8 +240,8 @@ export class SearchDataComponent implements OnInit {
     this.editingElement = element;
   }
 
-  labelTitre!:string;
-  formControlNameTitre!:string;
+  labelTitre!: string;
+  formControlNameTitre!: string;
 
   ngOnInit(): void {
 
@@ -165,12 +250,17 @@ export class SearchDataComponent implements OnInit {
     On passe la fonction comme argument – on ne l'appelle pas.*/
     this.simpleForm = this.formBuilder.group({
       name: [null, [Validators.required]],
+      codeA: [null],
+      codeB: [null]
     }, {
       updateOn: 'blur'  /*uniquement lorsque l'utilisateur change de champ, c'est-à-dire lors du  blur  des différents champs.*/
     });
 
+    this.initDropDown();
 
   }
+
+
 
   onSubmitForm() {
     console.log(this.simpleForm.value);
@@ -179,10 +269,10 @@ export class SearchDataComponent implements OnInit {
 
   filterElements() {
     const name = this.simpleForm.value.name.toLowerCase();
-    this.elements   = MOCK_DATABASE_ELEMENT_DATA.filter(element =>
-      element.name.toLowerCase().includes(name) 
+    this.elements = MOCK_DATABASE_ELEMENT_DATA.filter(element =>
+      element.name.toLowerCase().includes(name)
     );
-    this.dataSource.data =this.elements ;
+    this.dataSource.data = this.elements;
   }
 
 }

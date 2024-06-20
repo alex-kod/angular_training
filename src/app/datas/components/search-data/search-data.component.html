@@ -21,7 +21,7 @@
         <div class="grid auto-fit">
 
             <!-- =================================================================================================-->
-             <!--                          GESTION CRITERE RECHERCHE                           -->
+            <!--                          GESTION CRITERE RECHERCHE                           -->
             <!-- =================================================================================================-->
             <!-- formulaire "standard"-->
             <form [formGroup]="simpleForm">
@@ -31,10 +31,24 @@
                     <input matInput type="text" formControlName="name" placeholder="Name">
                 </mat-form-field>
 
-                <!-- <mat-form-field>
-                    <mat-label>Symbol</mat-label>
-                    <input matInput type="text" formControlName="symbol" placeholder="Symbol">
-                </mat-form-field> -->
+                <mat-form-field>
+                    <mat-label>Code A</mat-label>
+                    <mat-select formControlName="codeA" (selectionChange)="trigerfilterCodeOptions('code_a', $event.value)" [value]="selectedCodeA"> 
+                        <mat-option *ngFor="let option of codeAOptions" [value]="option">
+                            {{ option }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Code B</mat-label>
+                    <mat-select formControlName="codeB" (selectionChange)="trigerfilterCodeOptions('code_b', $event.value)" [value]="selectedCodeB">
+                        <mat-option *ngFor="let option of codeBOptions" [value]="option">
+                            {{ option }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
 
                 <div class="action-buttons">
                     <button type="submit" (click)="onSubmitForm()" [disabled]="simpleForm.invalid">rechercher</button>
