@@ -150,74 +150,230 @@ export class SearchDataComponent implements OnInit {
 
   //----------------------------
   codificationData: CodificationElement[] = MOCK_DATABASE_CODIFICATION;
+  filters = {
+
+  };
 
   codeAOptions: string[] = []; // Options for code_a dropdown
-  selectedCodeA!: string;
+  selectedCodeA!: boolean;
+  selectedCodeAValue!: string;
 
   codeBOptions: string[] = []; // Options for code_b dropdown
-  selectedCodeB!: string;
+  selectedCodeB!: boolean;
+  selectedCodeBValue!: string;
 
-  // codeCOptions: string[] = []; // Options for code_C dropdown
-  // selectedCodeC!: string;
+  codeCOptions: string[] = []; // Options for code_C dropdown
+  selectedCodeC!: boolean;
+  selectedCodeCValue!: string;
 
-  // codeDOptions: string[] = []; // Options for code_d dropdown
-  // selectedCodeD!: string;
+  codeDOptions: string[] = []; // Options for code_d dropdown
+  selectedCodeD!: boolean;
+  selectedCodeDValue!: string;
 
-  // dataCodifOptions: string[] = []; // Options for data_codif dropdown
-  // selectedDataCodif!: string;
+  dataCodifOptions: string[] = []; // Options for data_codif dropdown
+  selectedDataCodif!: boolean;
+  selectedDataCodifValue!: string;
 
   getUniqueOptions(data: any[], property: string): string[] {
     const uniqueSet = new Set(data.map(element => element[property]));
     return Array.from(uniqueSet);
   }
 
+
   initDropDown() {
     this.codeAOptions = this.getUniqueOptions(this.codificationData, 'code_a');
+    this.selectedCodeA = false;
     //------------------------------
     this.codeBOptions = this.getUniqueOptions(this.codificationData, 'code_b');
+    this.selectedCodeB = false;
     // //-----------------------------
-    // this.codeCOptions = this.getUniqueOptions(this.codificationData, 'code_c');
-    // //------------------------------
-    // this.codeDOptions = this.getUniqueOptions(this.codificationData, 'code_d');
-    // //------------------------------
-    // this.dataCodifOptions = this.getUniqueOptions(this.codificationData, 'data_codif');
+    this.codeCOptions = this.getUniqueOptions(this.codificationData, 'code_c');
+    this.selectedCodeC = false;
+    //------------------------------
+    this.codeDOptions = this.getUniqueOptions(this.codificationData, 'code_d');
+    this.selectedCodeD = false;
+    //------------------------------
+    this.dataCodifOptions = this.getUniqueOptions(this.codificationData, 'data_codif');
+    this.selectedDataCodif = false;
   }
 
-  getUniqueFiltredOptions(data: any[], dropdownOrigin: string, property: string, selectedCode: string): string[] {
+  getUniqueFiltredOptions(data: any[], filters: { [key: string]: string[] }, property: string): string[] {
     const uniqueSet = new Set(
       data
-        .filter(element => element[dropdownOrigin] === selectedCode)
-        .map(element => element[property]));
-    console.log("uniqueSet : " + Array.from(uniqueSet));
+        .filter(element => {
+          return Object.keys(filters).every(filterKey => {
+            return filters[filterKey].includes(element[filterKey]);
+          });
+        })
+        .map(element => element[property])
+    );
+    // console.log("uniqueSet " + property + " : " + Array.from(uniqueSet));
     return Array.from(uniqueSet);
   }
 
 
-  trigerfilterCodeOptions(dropdownOrigin: string, selectedCode: string) {
+  addFilterValue = (filters: { [key: string]: string[] }, key: string, value: string) => {
+    filters[key] = [value];
+  };
 
+  removeFilterValue = (filters: { [key: string]: string[] }, key: string) => {
+    delete filters[key];
+  };
+
+  trigerfilterCodeOptions(dropdownOrigin: string, selectedCode: string) {
+    console.log("++++++++++++++++");
     console.log("dropdownOrigin : " + dropdownOrigin);
     console.log("selectedCode : " + selectedCode);
 
+    if (dropdownOrigin === 'code_a') {
+      this.selectedCodeA = true;
+      this.simpleForm.controls['codeA'].patchValue(selectedCode)
+      this.addFilterValue(this.filters, 'code_a', this.simpleForm.controls['codeA'].value);
+    }
+    if (dropdownOrigin === 'code_b') {
+      this.selectedCodeB = true;
+      this.simpleForm.controls['codeB'].patchValue(selectedCode)
+      this.addFilterValue(this.filters, 'code_b', this.simpleForm.controls['codeB'].value);
+    }
+    if (dropdownOrigin === 'code_c') {
+      this.selectedCodeC = true;
+      this.simpleForm.controls['codeC'].patchValue(selectedCode)
+      this.addFilterValue(this.filters, 'code_c', this.simpleForm.controls['codeC'].value);
+    }
+    if (dropdownOrigin === 'code_d') {
+      this.selectedCodeD = true;
+      this.simpleForm.controls['codeD'].patchValue(selectedCode)
+      this.addFilterValue(this.filters, 'code_d', this.simpleForm.controls['codeD'].value);
+    }
+    if (dropdownOrigin === 'data_codif') {
+      this.selectedDataCodif = true;
+      this.simpleForm.controls['dataCodif'].patchValue(selectedCode)
+      this.addFilterValue(this.filters, 'data_codif', this.simpleForm.controls['dataCodif'].value);
+    }
+    //------------------------------------------------
 
-    console.log("==> populateCodeAOptions");
-    this.codeAOptions = this.getUniqueFiltredOptions(this.codificationData, dropdownOrigin, 'code_a', selectedCode)
-    if (this.codeAOptions.length < 2) {//uniquement si valeur unique
-      this.selectedCodeA = selectedCode;
-      console.log("-> set selectedCodeA : "+this.codeAOptions[0]);
+    // if (dropdownOrigin != 'code_a') {
+    console.log("++++++++++++++++");
+    this.codeAOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_a');
+    if (this.codeAOptions.length == 1) {
+      this.simpleForm.controls['codeA'].patchValue(this.codeAOptions[0])
+    } else {
+      this.simpleForm.controls['codeA'].patchValue(null)
+    }
+    console.log("code_a : " + this.codeAOptions);
+
+    console.log("++++++++++++++++");
+    this.codeBOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_b');
+    if (this.codeBOptions.length == 1) {
+      this.simpleForm.controls['codeB'].patchValue(this.codeBOptions[0])
+    } else {
+      this.simpleForm.controls['codeB'].patchValue(null)
+    }
+    console.log("code_b : " + this.codeBOptions);
+
+    console.log("++++++++++++++++");
+    this.codeCOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_c');
+    if (this.codeCOptions.length == 1) {
+      this.simpleForm.controls['codeC'].patchValue(this.codeCOptions[0])
+    } else {
+      this.simpleForm.controls['codeC'].patchValue(null)
+    }
+    console.log("code_c : " + this.codeBOptions);
+
+    console.log("++++++++++++++++");
+    this.codeDOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_d');
+    if (this.codeDOptions.length == 1) {
+      this.simpleForm.controls['codeD'].patchValue(this.codeDOptions[0])
+    } else {
+      this.simpleForm.controls['codeD'].patchValue(null)
+    }
+    console.log("code_d : " + this.codeBOptions);
+  
+    console.log("++++++++++++++++");
+    this.dataCodifOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'data_codif');
+    if (this.dataCodifOptions.length == 1) {
+      this.simpleForm.controls['dataCodif'].patchValue(this.dataCodifOptions[0])
+    } else {
+      this.simpleForm.controls['dataCodif'].patchValue(null)
+    }
+    console.log("data_codif : " + this.dataCodifOptions);
+
+    console.log("==============================================");
+  }
+
+  clickEvent(formFieldCode: string) {
+    console.log("-----------------");
+    console.log("formFieldCode cleared : " + formFieldCode);
+
+    this.simpleForm.controls[formFieldCode].patchValue(null);
+    if (formFieldCode === 'codeA') {
+      this.selectedCodeA = false;
+      this.removeFilterValue(this.filters, 'code_a');
+    }
+    else if (formFieldCode === 'codeB') {
+      this.selectedCodeB = false;
+      this.removeFilterValue(this.filters, 'code_b');
+    }
+    else if (formFieldCode === 'codeC') {
+      this.selectedCodeC = false;
+      this.removeFilterValue(this.filters, 'code_c');
+    }
+    else if (formFieldCode === 'codeD') {
+      this.selectedCodeD = false;
+      this.removeFilterValue(this.filters, 'code_d');
+    }
+    else if (formFieldCode === 'dataCodif') {
+      this.removeFilterValue(this.filters, 'data_codif');
+      this.selectedDataCodif = false;
+
     }
 
-    console.log("==> populateCodeBOptions");
-    this.codeBOptions = this.getUniqueFiltredOptions(this.codificationData, dropdownOrigin, 'code_b', selectedCode)
-    if (this.codeBOptions.length < 2) {//uniquement si valeur unique
-      this.selectedCodeB = selectedCode;
-      console.log("-> set selectedCodeB : "+this.codeBOptions[0]);
-    }
+      console.log("-----------------")
+      this.codeAOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_a');
+      if (this.codeAOptions.length == 1) {
+        this.simpleForm.controls['codeA'].patchValue(this.codeAOptions[0])
+      } else {
+        this.simpleForm.controls['codeA'].patchValue(null)
+      }
+      console.log("code_a : " + this.codeAOptions);
 
+      console.log("-----------------")
+      this.codeBOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_b');
+      if (this.codeBOptions.length == 1) {
+        this.simpleForm.controls['codeB'].patchValue(this.codeBOptions[0])
+      } else {
+        this.simpleForm.controls['codeB'].patchValue(null)
+      }
+      console.log("code_b : " + this.codeBOptions);
 
-    console.log("========");
-    // this.codeCOptions = this.getUniqueFiltredOptions(this.codificationData, 'code_c', selectedCode)
-    // this.codeDOptions = this.getUniqueFiltredOptions(this.codificationData, 'code_d', selectedCode)
-    // this.dataCodifOptions = this.getUniqueFiltredOptions(this.codificationData, 'data_codif', selectedCode)
+      console.log("-----------------")
+      this.codeCOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_c');
+      if (this.codeCOptions.length == 1) {
+        this.simpleForm.controls['codeC'].patchValue(this.codeCOptions[0])
+      } else {
+        this.simpleForm.controls['codeC'].patchValue(null)
+      }
+      console.log("code_c : " + this.codeBOptions);
+ 
+      console.log("-----------------")
+      this.codeDOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_d');
+      if (this.codeDOptions.length == 1) {
+        this.simpleForm.controls['codeD'].patchValue(this.codeDOptions[0])
+      } else {
+        this.simpleForm.controls['codeD'].patchValue(null)
+      }
+      console.log("code_d : " + this.codeBOptions);
+
+      console.log("-----------------")
+      this.dataCodifOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'data_codif');
+      if (this.dataCodifOptions.length == 1) {
+        this.simpleForm.controls['dataCodif'].patchValue(this.dataCodifOptions[0])
+      } else {
+        this.simpleForm.controls['dataCodif'].patchValue(null)
+      }
+      console.log("data_codif : " + this.dataCodifOptions);
+
+    console.log("==============================================");
 
   }
 
@@ -251,7 +407,11 @@ export class SearchDataComponent implements OnInit {
     this.simpleForm = this.formBuilder.group({
       name: [null, [Validators.required]],
       codeA: [null],
-      codeB: [null]
+      codeB: [null],
+      codeC: [null],
+      codeD: [null],
+      dataCodif: [null],
+
     }, {
       updateOn: 'blur'  /*uniquement lorsque l'utilisateur change de champ, c'est-à-dire lors du  blur  des différents champs.*/
     });
@@ -262,18 +422,7 @@ export class SearchDataComponent implements OnInit {
 
 
 
-  onSubmitForm() {
-    console.log(this.simpleForm.value);
-    this.filterElements();
-  }
 
-  filterElements() {
-    const name = this.simpleForm.value.name.toLowerCase();
-    this.elements = MOCK_DATABASE_ELEMENT_DATA.filter(element =>
-      element.name.toLowerCase().includes(name)
-    );
-    this.dataSource.data = this.elements;
-  }
 
 }
 

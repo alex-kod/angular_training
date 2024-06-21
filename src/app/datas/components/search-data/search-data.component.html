@@ -24,34 +24,94 @@
             <!--                          GESTION CRITERE RECHERCHE                           -->
             <!-- =================================================================================================-->
             <!-- formulaire "standard"-->
+            <!-- <p>
+                code_a: 'code_a_1', code_b: 'code_b_1', code_c: 'code_c_1', code_d: 'code_d_1', data_codif: 'data_codif_1'<br/>
+                code_a: 'code_a_1', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_2', data_codif: 'data_codif_2'<br/>
+                code_a: 'code_a_1', code_b: 'code_b_3', code_c: 'code_c_3', code_d: 'code_d_2', data_codif: 'data_codif_3'<br/>
+                code_a: 'code_a_1', code_b: 'code_b_1', code_c: 'code_c_3', code_d: 'code_d_3', data_codif: 'data_codif_4'<br/>
+                code_a: 'code_a_1', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_4', data_codif: 'data_codif_5'<br/>
+                code_a: 'code_a_1', code_b: 'code_b_3', code_c: 'code_c_1', code_d: 'code_d_5', data_codif: 'data_codif_6'<br/>
+                code_a: 'code_a_2', code_b: 'code_b_1', code_c: 'code_c_1', code_d: 'code_d_5', data_codif: 'data_codif_7'<br/>
+                code_a: 'code_a_2', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_2', data_codif: 'data_codif_8'<br/>
+                code_a: 'code_a_2', code_b: 'code_b_3', code_c: 'code_c_3', code_d: 'code_d_2', data_codif: 'data_codif_9'<br/>
+                code_a: 'code_a_2', code_b: 'code_b_4', code_c: 'code_c_1', code_d: 'code_d_3', data_codif: 'data_codif_10'<br/>
+                code_a: 'code_a_2', code_b: 'code_b_5', code_c: 'code_c_2', code_d: 'code_d_3', data_codif: 'data_codif_11'<br/>
+                code_a: 'code_a_2', code_b: 'code_b_6', code_c: 'code_c_3', code_d: 'code_d_1', data_codif: 'data_codif_12'<br/>
+            </p> -->
+
             <form [formGroup]="simpleForm">
 
                 <mat-form-field>
                     <mat-label>Name</mat-label>
                     <input matInput type="text" formControlName="name" placeholder="Name">
                 </mat-form-field>
+                <br /><br />
 
                 <mat-form-field>
                     <mat-label>Code A</mat-label>
-                    <mat-select formControlName="codeA" (selectionChange)="trigerfilterCodeOptions('code_a', $event.value)" [value]="selectedCodeA"> 
+                    <mat-select formControlName="codeA" (selectionChange)="trigerfilterCodeOptions('code_a', $event.value)" >
                         <mat-option *ngFor="let option of codeAOptions" [value]="option">
                             {{ option }}
                         </mat-option>
                     </mat-select>
+                    @if(selectedCodeA){
+                    <button mat-icon-button matSuffix (click)="clickEvent('codeA')"> <mat-icon>close</mat-icon></button>
+                    }
                 </mat-form-field>
-
+                <br />
                 <mat-form-field>
                     <mat-label>Code B</mat-label>
-                    <mat-select formControlName="codeB" (selectionChange)="trigerfilterCodeOptions('code_b', $event.value)" [value]="selectedCodeB">
+                    <mat-select formControlName="codeB" (selectionChange)="trigerfilterCodeOptions('code_b', $event.value)" >
                         <mat-option *ngFor="let option of codeBOptions" [value]="option">
                             {{ option }}
                         </mat-option>
                     </mat-select>
+                    @if(selectedCodeB){
+                    <button mat-icon-button matSuffix (click)="clickEvent('codeB')"> <mat-icon>close</mat-icon></button>
+                    }
+
+                </mat-form-field>
+                <br />
+                <mat-form-field>
+                    <mat-label>Code C</mat-label>
+                    <mat-select formControlName="codeC" (selectionChange)="trigerfilterCodeOptions('code_c', $event.value)" >
+                        <mat-option *ngFor="let option of codeCOptions" [value]="option">
+                            {{ option }}
+                        </mat-option>
+                    </mat-select>
+                    @if(selectedCodeC){
+                    <button mat-icon-button matSuffix (click)="clickEvent('codeC')"> <mat-icon>close</mat-icon></button>
+                    }
+                </mat-form-field>
+                <br />
+                <mat-form-field>
+                    <mat-label>Code D</mat-label>
+                    <mat-select formControlName="codeD" (selectionChange)="trigerfilterCodeOptions('code_d', $event.value)" >
+                        <mat-option *ngFor="let option of codeDOptions" [value]="option">
+                            {{ option }}
+                        </mat-option>
+                    </mat-select>
+                    @if(selectedCodeD){
+                    <button mat-icon-button matSuffix (click)="clickEvent('codeD')"> <mat-icon>close</mat-icon></button>
+                    }
+
+                </mat-form-field>
+                <br />
+                <mat-form-field>
+                    <mat-label>data Codif</mat-label>
+                    <mat-select formControlName="dataCodif" (selectionChange)="trigerfilterCodeOptions('data_codif', $event.value)" >
+                        <mat-option *ngFor="let option of dataCodifOptions" [value]="option">
+                            {{ option }}
+                        </mat-option>
+                    </mat-select>
+                    @if(selectedDataCodif){
+                    <button mat-icon-button matSuffix (click)="clickEvent('dataCodif')"> <mat-icon>close</mat-icon></button>
+                    }
                 </mat-form-field>
 
 
                 <div class="action-buttons">
-                    <button type="submit" (click)="onSubmitForm()" [disabled]="simpleForm.invalid">rechercher</button>
+                    <!-- <button type="submit" (click)="onSubmitForm()" [disabled]="simpleForm.invalid">rechercher</button> -->
                 </div>
 
             </form>
