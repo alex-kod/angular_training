@@ -21,3 +21,20 @@ export interface CodificationElement {
   data_codif: string;
 }
 
+export interface dropDownItem {
+  code: string;
+  lib: string;
+}
+
+export interface CodificationElement2 {
+  code_a: string;
+  lib_a: string;
+  code_b: string;
+  lib_b: string;
+  code_c: string;
+  lib_c: string;
+  code_d: string;
+  lib_d: string;
+  data_codif: string;
+  lib_data_codif: string;
+}

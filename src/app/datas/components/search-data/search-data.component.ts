@@ -12,27 +12,45 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { DataDetailComponent } from '../data-detail/data-detail.component';
 import { MaterialTableComponent } from '../../../shared/forms/components/material-table/material-table.component';
-import { CodificationElement, PeriodicElement, SolarSystemElement } from '../../interfaces/interfaces';
+import { CodificationElement, CodificationElement2, dropDownItem, PeriodicElement, SolarSystemElement } from '../../interfaces/interfaces';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
-const MOCK_DATABASE_CODIFICATION: CodificationElement[] = [
-  { code_a: 'code_a_1', code_b: 'code_b_1', code_c: 'code_c_1', code_d: 'code_d_1', data_codif: 'data_codif_1' },
-  { code_a: 'code_a_1', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_2', data_codif: 'data_codif_2' },
-  { code_a: 'code_a_1', code_b: 'code_b_3', code_c: 'code_c_3', code_d: 'code_d_2', data_codif: 'data_codif_3' },
-  { code_a: 'code_a_1', code_b: 'code_b_1', code_c: 'code_c_3', code_d: 'code_d_3', data_codif: 'data_codif_4' },
-  { code_a: 'code_a_1', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_4', data_codif: 'data_codif_5' },
-  { code_a: 'code_a_1', code_b: 'code_b_3', code_c: 'code_c_1', code_d: 'code_d_5', data_codif: 'data_codif_6' },
+// const MOCK_DATABASE_CODIFICATION: CodificationElement[] = [
+//   { code_a: 'code_a_1', code_b: 'code_b_1', code_c: 'code_c_1', code_d: 'code_d_1', data_codif: 'data_codif_1' },
+//   { code_a: 'code_a_1', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_2', data_codif: 'data_codif_2' },
+//   { code_a: 'code_a_1', code_b: 'code_b_3', code_c: 'code_c_3', code_d: 'code_d_2', data_codif: 'data_codif_3' },
+//   { code_a: 'code_a_1', code_b: 'code_b_1', code_c: 'code_c_3', code_d: 'code_d_3', data_codif: 'data_codif_4' },
+//   { code_a: 'code_a_1', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_4', data_codif: 'data_codif_5' },
+//   { code_a: 'code_a_1', code_b: 'code_b_3', code_c: 'code_c_1', code_d: 'code_d_5', data_codif: 'data_codif_6' },
+//   //-----------------------------------------------
+//   { code_a: 'code_a_2', code_b: 'code_b_1', code_c: 'code_c_1', code_d: 'code_d_5', data_codif: 'data_codif_7' },
+//   { code_a: 'code_a_2', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_2', data_codif: 'data_codif_8' },
+//   { code_a: 'code_a_2', code_b: 'code_b_3', code_c: 'code_c_3', code_d: 'code_d_2', data_codif: 'data_codif_9' },
+//   { code_a: 'code_a_2', code_b: 'code_b_4', code_c: 'code_c_1', code_d: 'code_d_3', data_codif: 'data_codif_10' },
+//   { code_a: 'code_a_2', code_b: 'code_b_5', code_c: 'code_c_2', code_d: 'code_d_3', data_codif: 'data_codif_11' },
+//   { code_a: 'code_a_2', code_b: 'code_b_6', code_c: 'code_c_3', code_d: 'code_d_1', data_codif: 'data_codif_12' },
+// ];
+
+
+
+const MOCK_DATABASE_CODIFICATION2: CodificationElement2[] = [
+  { code_a: 'code_a_1', lib_a: 'lib_a_1', code_b: 'code_b_1', lib_b: 'lib_b_1', code_c: 'code_c_1', lib_c: 'lib_c_1', code_d: 'code_d_1', lib_d: 'lib_d_1', data_codif: 'data_codif_1', lib_data_codif: 'lib_data_codif_1' },
+  { code_a: 'code_a_1', lib_a: 'lib_a_1', code_b: 'code_b_2', lib_b: 'lib_b_2', code_c: 'code_c_2', lib_c: 'lib_c_2', code_d: 'code_d_2', lib_d: 'lib_d_2', data_codif: 'data_codif_2', lib_data_codif: 'lib_data_codif_2' },
+  { code_a: 'code_a_1', lib_a: 'lib_a_1', code_b: 'code_b_3', lib_b: 'lib_b_3', code_c: 'code_c_3', lib_c: 'lib_c_3', code_d: 'code_d_2', lib_d: 'lib_d_2', data_codif: 'data_codif_3', lib_data_codif: 'lib_data_codif_3' },
+  { code_a: 'code_a_1', lib_a: 'lib_a_1', code_b: 'code_b_1', lib_b: 'lib_b_1', code_c: 'code_c_3', lib_c: 'lib_c_3', code_d: 'code_d_3', lib_d: 'lib_d_3', data_codif: 'data_codif_4', lib_data_codif: 'lib_data_codif_4' },
+  { code_a: 'code_a_1', lib_a: 'lib_a_1', code_b: 'code_b_2', lib_b: 'lib_b_2', code_c: 'code_c_2', lib_c: 'lib_c_2', code_d: 'code_d_4', lib_d: 'lib_d_4', data_codif: 'data_codif_5', lib_data_codif: 'lib_data_codif_5' },
+  { code_a: 'code_a_1', lib_a: 'lib_a_1', code_b: 'code_b_3', lib_b: 'lib_b_3', code_c: 'code_c_1', lib_c: 'lib_c_1', code_d: 'code_d_5', lib_d: 'lib_d_5', data_codif: 'data_codif_6', lib_data_codif: 'lib_data_codif_6' },
   //-----------------------------------------------
-  { code_a: 'code_a_2', code_b: 'code_b_1', code_c: 'code_c_1', code_d: 'code_d_5', data_codif: 'data_codif_7' },
-  { code_a: 'code_a_2', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_2', data_codif: 'data_codif_8' },
-  { code_a: 'code_a_2', code_b: 'code_b_3', code_c: 'code_c_3', code_d: 'code_d_2', data_codif: 'data_codif_9' },
-  { code_a: 'code_a_2', code_b: 'code_b_4', code_c: 'code_c_1', code_d: 'code_d_3', data_codif: 'data_codif_10' },
-  { code_a: 'code_a_2', code_b: 'code_b_5', code_c: 'code_c_2', code_d: 'code_d_3', data_codif: 'data_codif_11' },
-  { code_a: 'code_a_2', code_b: 'code_b_6', code_c: 'code_c_3', code_d: 'code_d_1', data_codif: 'data_codif_12' },
+  { code_a: 'code_a_2', lib_a: 'lib_a_2', code_b: 'code_b_1', lib_b: 'lib_b_1', code_c: 'code_c_1', lib_c: 'lib_c_1', code_d: 'code_d_5', lib_d: 'lib_d_5', data_codif: 'data_codif_7', lib_data_codif: 'lib_data_codif_7' },
+  { code_a: 'code_a_2', lib_a: 'lib_a_2', code_b: 'code_b_2', lib_b: 'lib_b_2', code_c: 'code_c_2', lib_c: 'lib_c_2', code_d: 'code_d_2', lib_d: 'lib_d_2', data_codif: 'data_codif_8', lib_data_codif: 'lib_data_codif_8' },
+  { code_a: 'code_a_2', lib_a: 'lib_a_2', code_b: 'code_b_3', lib_b: 'lib_b_3', code_c: 'code_c_3', lib_c: 'lib_c_3', code_d: 'code_d_2', lib_d: 'lib_d_2', data_codif: 'data_codif_9', lib_data_codif: 'lib_data_codif_9' },
+  { code_a: 'code_a_2', lib_a: 'lib_a_2', code_b: 'code_b_4', lib_b: 'lib_b_4', code_c: 'code_c_1', lib_c: 'lib_c_1', code_d: 'code_d_3', lib_d: 'lib_d_3', data_codif: 'data_codif_10', lib_data_codif: 'lib_data_codif_10' },
+  { code_a: 'code_a_2', lib_a: 'lib_a_2', code_b: 'code_b_5', lib_b: 'lib_b_5', code_c: 'code_c_2', lib_c: 'lib_c_2', code_d: 'code_d_3', lib_d: 'lib_d_3', data_codif: 'data_codif_11', lib_data_codif: 'lib_data_codif_11' },
+  { code_a: 'code_a_2', lib_a: 'lib_a_2', code_b: 'code_b_6', lib_b: 'lib_b_6', code_c: 'code_c_3', lib_c: 'lib_c_3', code_d: 'code_d_1', lib_d: 'lib_d_1', data_codif: 'data_codif_12', lib_data_codif: 'lib_data_codif_12' },
 ];
 
 const MOCK_DATABASE_ELEMENT_DATA: PeriodicElement[] = [
@@ -149,67 +167,107 @@ export class SearchDataComponent implements OnInit {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
 
   //----------------------------
-  codificationData: CodificationElement[] = MOCK_DATABASE_CODIFICATION;
+  // codificationData: CodificationElement[] = MOCK_DATABASE_CODIFICATION;
+  codificationData: CodificationElement2[] = MOCK_DATABASE_CODIFICATION2;
   filters = {
 
   };
 
-  codeAOptions: string[] = []; // Options for code_a dropdown
+  codeAOptions: dropDownItem[] = []; // Options for code_a dropdown
   selectedCodeA!: boolean;
   selectedCodeAValue!: string;
 
-  codeBOptions: string[] = []; // Options for code_b dropdown
+  codeBOptions: dropDownItem[] = []; // Options for code_b dropdown
   selectedCodeB!: boolean;
   selectedCodeBValue!: string;
 
-  codeCOptions: string[] = []; // Options for code_C dropdown
+  codeCOptions: dropDownItem[] = []; // Options for code_C dropdown
   selectedCodeC!: boolean;
   selectedCodeCValue!: string;
 
-  codeDOptions: string[] = []; // Options for code_d dropdown
+  codeDOptions: dropDownItem[] = []; // Options for code_d dropdown
   selectedCodeD!: boolean;
   selectedCodeDValue!: string;
 
-  dataCodifOptions: string[] = []; // Options for data_codif dropdown
+  dataCodifOptions: dropDownItem[] = []; // Options for data_codif dropdown
   selectedDataCodif!: boolean;
   selectedDataCodifValue!: string;
 
-  getUniqueOptions(data: any[], property: string): string[] {
-    const uniqueSet = new Set(data.map(element => element[property]));
-    return Array.from(uniqueSet);
-  }
+
 
 
   initDropDown() {
-    this.codeAOptions = this.getUniqueOptions(this.codificationData, 'code_a');
+    this.codeAOptions = this.getUniqueOptions(this.codificationData, 'code_a','lib_a');
     this.selectedCodeA = false;
     //------------------------------
-    this.codeBOptions = this.getUniqueOptions(this.codificationData, 'code_b');
+    this.codeBOptions = this.getUniqueOptions(this.codificationData, 'code_b','lib_b');
     this.selectedCodeB = false;
     // //-----------------------------
-    this.codeCOptions = this.getUniqueOptions(this.codificationData, 'code_c');
+    this.codeCOptions = this.getUniqueOptions(this.codificationData, 'code_c','lib_c');
     this.selectedCodeC = false;
     //------------------------------
-    this.codeDOptions = this.getUniqueOptions(this.codificationData, 'code_d');
+    this.codeDOptions = this.getUniqueOptions(this.codificationData, 'code_d','lib_d');
     this.selectedCodeD = false;
     //------------------------------
-    this.dataCodifOptions = this.getUniqueOptions(this.codificationData, 'data_codif');
+    this.dataCodifOptions = this.getUniqueOptions(this.codificationData, 'data_codif','lib_data_codif');
     this.selectedDataCodif = false;
   }
 
-  getUniqueFiltredOptions(data: any[], filters: { [key: string]: string[] }, property: string): string[] {
-    const uniqueSet = new Set(
-      data
-        .filter(element => {
-          return Object.keys(filters).every(filterKey => {
-            return filters[filterKey].includes(element[filterKey]);
-          });
-        })
-        .map(element => element[property])
-    );
-    // console.log("uniqueSet " + property + " : " + Array.from(uniqueSet));
-    return Array.from(uniqueSet);
+  getUniqueOptions(data: CodificationElement2[], code: keyof CodificationElement2, lib: keyof CodificationElement2): dropDownItem[] {
+
+    const uniqueSet = new Map<string, dropDownItem>();
+    data.forEach(element => {
+      const key = element[code];
+      if (!uniqueSet.has(key)) {
+        uniqueSet.set(key, { code: element[code], lib: element[lib] });
+      }
+    });
+    return Array.from(uniqueSet.values());
   }
+
+  getUniqueFiltredOptions(
+    data: CodificationElement2[],
+    filters: { [key in keyof CodificationElement2]?: string[] },
+    code: keyof CodificationElement2,
+    lib: keyof CodificationElement2
+  ): dropDownItem[] {
+    const uniqueSet = new Map<string, dropDownItem>();
+  
+    data
+      .filter(element => {
+        return (Object.keys(filters) as (keyof CodificationElement2)[]).every(filterKey => {
+          const filterValues = filters[filterKey];
+          return filterValues ? filterValues.includes(element[filterKey]) : true;
+        });
+      })
+      .forEach(element => {
+        const key = element[code];
+        if (!uniqueSet.has(key)) {
+          uniqueSet.set(key, { code: element[code], lib: element[lib] });
+        }
+      });
+  
+    return Array.from(uniqueSet.values());
+  }
+
+
+  // getUniqueOptions(data: any[], property: string): string[] {
+  //   const uniqueSet = new Set(data.map(element => element[property]));
+  //   return Array.from(uniqueSet);
+  // }
+
+  // getUniqueFiltredOptions(data: any[], filters: { [key: string]: string[] }, property: string): string[] {
+  //   const uniqueSet = new Set(
+  //     data
+  //       .filter(element => {
+  //         return Object.keys(filters).every(filterKey => {
+  //           return filters[filterKey].includes(element[filterKey]);
+  //         });
+  //       })
+  //       .map(element => element[property])
+  //   );
+  //   return Array.from(uniqueSet);
+  // }
 
 
   addFilterValue = (filters: { [key: string]: string[] }, key: string, value: string) => {
@@ -254,45 +312,45 @@ export class SearchDataComponent implements OnInit {
 
     // if (dropdownOrigin != 'code_a') {
     console.log("++++++++++++++++");
-    this.codeAOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_a');
+    this.codeAOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_a', 'lib_a');
     if (this.codeAOptions.length == 1) {
-      this.simpleForm.controls['codeA'].patchValue(this.codeAOptions[0])
+      this.simpleForm.controls['codeA'].patchValue(this.codeAOptions[0].code)
     } else {
       this.simpleForm.controls['codeA'].patchValue(null)
     }
     console.log("code_a : " + this.codeAOptions);
 
     console.log("++++++++++++++++");
-    this.codeBOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_b');
+    this.codeBOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_b', 'lib_b');
     if (this.codeBOptions.length == 1) {
-      this.simpleForm.controls['codeB'].patchValue(this.codeBOptions[0])
+      this.simpleForm.controls['codeB'].patchValue(this.codeBOptions[0].code)
     } else {
       this.simpleForm.controls['codeB'].patchValue(null)
     }
     console.log("code_b : " + this.codeBOptions);
 
     console.log("++++++++++++++++");
-    this.codeCOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_c');
+    this.codeCOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_c', 'lib_c');
     if (this.codeCOptions.length == 1) {
-      this.simpleForm.controls['codeC'].patchValue(this.codeCOptions[0])
+      this.simpleForm.controls['codeC'].patchValue(this.codeCOptions[0].code)
     } else {
       this.simpleForm.controls['codeC'].patchValue(null)
     }
     console.log("code_c : " + this.codeBOptions);
 
     console.log("++++++++++++++++");
-    this.codeDOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_d');
+    this.codeDOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_d', 'lib_d');
     if (this.codeDOptions.length == 1) {
-      this.simpleForm.controls['codeD'].patchValue(this.codeDOptions[0])
+      this.simpleForm.controls['codeD'].patchValue(this.codeDOptions[0].code)
     } else {
       this.simpleForm.controls['codeD'].patchValue(null)
     }
     console.log("code_d : " + this.codeBOptions);
-  
+
     console.log("++++++++++++++++");
-    this.dataCodifOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'data_codif');
+    this.dataCodifOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'data_codif', 'lib_data_codif');
     if (this.dataCodifOptions.length == 1) {
-      this.simpleForm.controls['dataCodif'].patchValue(this.dataCodifOptions[0])
+      this.simpleForm.controls['dataCodif'].patchValue(this.dataCodifOptions[0].code)
     } else {
       this.simpleForm.controls['dataCodif'].patchValue(null)
     }
@@ -328,50 +386,50 @@ export class SearchDataComponent implements OnInit {
 
     }
 
-      console.log("-----------------")
-      this.codeAOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_a');
-      if (this.codeAOptions.length == 1) {
-        this.simpleForm.controls['codeA'].patchValue(this.codeAOptions[0])
-      } else {
-        this.simpleForm.controls['codeA'].patchValue(null)
-      }
-      console.log("code_a : " + this.codeAOptions);
+    console.log("-----------------")
+    this.codeAOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_a', 'lib_a');
+    if (this.codeAOptions.length == 1) {
+      this.simpleForm.controls['codeA'].patchValue(this.codeAOptions[0].code)
+    } else {
+      this.simpleForm.controls['codeA'].patchValue(null)
+    }
+    console.log("code_a : " + this.codeAOptions);
 
-      console.log("-----------------")
-      this.codeBOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_b');
-      if (this.codeBOptions.length == 1) {
-        this.simpleForm.controls['codeB'].patchValue(this.codeBOptions[0])
-      } else {
-        this.simpleForm.controls['codeB'].patchValue(null)
-      }
-      console.log("code_b : " + this.codeBOptions);
+    console.log("-----------------")
+    this.codeBOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_b', 'lib_b');
+    if (this.codeBOptions.length == 1) {
+      this.simpleForm.controls['codeB'].patchValue(this.codeBOptions[0].code)
+    } else {
+      this.simpleForm.controls['codeB'].patchValue(null)
+    }
+    console.log("code_b : " + this.codeBOptions);
 
-      console.log("-----------------")
-      this.codeCOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_c');
-      if (this.codeCOptions.length == 1) {
-        this.simpleForm.controls['codeC'].patchValue(this.codeCOptions[0])
-      } else {
-        this.simpleForm.controls['codeC'].patchValue(null)
-      }
-      console.log("code_c : " + this.codeBOptions);
- 
-      console.log("-----------------")
-      this.codeDOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_d');
-      if (this.codeDOptions.length == 1) {
-        this.simpleForm.controls['codeD'].patchValue(this.codeDOptions[0])
-      } else {
-        this.simpleForm.controls['codeD'].patchValue(null)
-      }
-      console.log("code_d : " + this.codeBOptions);
+    console.log("-----------------")
+    this.codeCOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_c', 'lib_c');
+    if (this.codeCOptions.length == 1) {
+      this.simpleForm.controls['codeC'].patchValue(this.codeCOptions[0].code)
+    } else {
+      this.simpleForm.controls['codeC'].patchValue(null)
+    }
+    console.log("code_c : " + this.codeBOptions);
 
-      console.log("-----------------")
-      this.dataCodifOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'data_codif');
-      if (this.dataCodifOptions.length == 1) {
-        this.simpleForm.controls['dataCodif'].patchValue(this.dataCodifOptions[0])
-      } else {
-        this.simpleForm.controls['dataCodif'].patchValue(null)
-      }
-      console.log("data_codif : " + this.dataCodifOptions);
+    console.log("-----------------")
+    this.codeDOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_d', 'lib_d');
+    if (this.codeDOptions.length == 1) {
+      this.simpleForm.controls['codeD'].patchValue(this.codeDOptions[0].code)
+    } else {
+      this.simpleForm.controls['codeD'].patchValue(null)
+    }
+    console.log("code_d : " + this.codeBOptions);
+
+    console.log("-----------------")
+    this.dataCodifOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'data_codif', 'lib_data_codif');
+    if (this.dataCodifOptions.length == 1) {
+      this.simpleForm.controls['dataCodif'].patchValue(this.dataCodifOptions[0].code)
+    } else {
+      this.simpleForm.controls['dataCodif'].patchValue(null)
+    }
+    console.log("data_codif : " + this.dataCodifOptions);
 
     console.log("==============================================");
 

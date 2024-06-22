@@ -50,8 +50,8 @@
                 <mat-form-field>
                     <mat-label>Code A</mat-label>
                     <mat-select formControlName="codeA" (selectionChange)="trigerfilterCodeOptions('code_a', $event.value)" >
-                        <mat-option *ngFor="let option of codeAOptions" [value]="option">
-                            {{ option }}
+                        <mat-option *ngFor="let option of codeAOptions" [value]="option.code">
+                            {{ option.code }}   <!-- --  {{ option.lib }}-->
                         </mat-option>
                     </mat-select>
                     @if(selectedCodeA){
@@ -62,8 +62,8 @@
                 <mat-form-field>
                     <mat-label>Code B</mat-label>
                     <mat-select formControlName="codeB" (selectionChange)="trigerfilterCodeOptions('code_b', $event.value)" >
-                        <mat-option *ngFor="let option of codeBOptions" [value]="option">
-                            {{ option }}
+                        <mat-option *ngFor="let option of codeBOptions" [value]="option.code">
+                            {{ option.code }}   <!-- --  {{ option.lib }}-->
                         </mat-option>
                     </mat-select>
                     @if(selectedCodeB){
@@ -75,8 +75,8 @@
                 <mat-form-field>
                     <mat-label>Code C</mat-label>
                     <mat-select formControlName="codeC" (selectionChange)="trigerfilterCodeOptions('code_c', $event.value)" >
-                        <mat-option *ngFor="let option of codeCOptions" [value]="option">
-                            {{ option }}
+                        <mat-option *ngFor="let option of codeCOptions" [value]="option.code">
+                            {{ option.code }}   <!-- --  {{ option.lib }}-->
                         </mat-option>
                     </mat-select>
                     @if(selectedCodeC){
@@ -87,8 +87,8 @@
                 <mat-form-field>
                     <mat-label>Code D</mat-label>
                     <mat-select formControlName="codeD" (selectionChange)="trigerfilterCodeOptions('code_d', $event.value)" >
-                        <mat-option *ngFor="let option of codeDOptions" [value]="option">
-                            {{ option }}
+                        <mat-option *ngFor="let option of codeDOptions" [value]="option.code">
+                            {{ option.code }}  <!-- --  {{ option.lib }}-->
                         </mat-option>
                     </mat-select>
                     @if(selectedCodeD){
@@ -100,8 +100,8 @@
                 <mat-form-field>
                     <mat-label>data Codif</mat-label>
                     <mat-select formControlName="dataCodif" (selectionChange)="trigerfilterCodeOptions('data_codif', $event.value)" >
-                        <mat-option *ngFor="let option of dataCodifOptions" [value]="option">
-                            {{ option }}
+                        <mat-option *ngFor="let option of dataCodifOptions" [value]="option.code">
+                            {{ option.code }}  <!-- --  {{ option.lib }}-->
                         </mat-option>
                     </mat-select>
                     @if(selectedDataCodif){
