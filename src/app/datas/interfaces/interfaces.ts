@@ -13,20 +13,12 @@ export interface SolarSystemElement {
   size: string;
 }
 
-export interface CodificationElement {
-  code_a: string;
-  code_b: string;
-  code_c: string;
-  code_d: string;
-  data_codif: string;
-}
-
 export interface dropDownItem {
   code: string;
   lib: string;
 }
 
-export interface CodificationElement2 {
+export interface CodificationElement {
   code_a: string;
   lib_a: string;
   code_b: string;

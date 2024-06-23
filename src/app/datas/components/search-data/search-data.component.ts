@@ -12,32 +12,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { DataDetailComponent } from '../data-detail/data-detail.component';
 import { MaterialTableComponent } from '../../../shared/forms/components/material-table/material-table.component';
-import { CodificationElement, CodificationElement2, dropDownItem, PeriodicElement, SolarSystemElement } from '../../interfaces/interfaces';
-
+import { CodificationElement, dropDownItem, PeriodicElement, SolarSystemElement } from '../../interfaces/interfaces';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-
-
-// const MOCK_DATABASE_CODIFICATION: CodificationElement[] = [
-//   { code_a: 'code_a_1', code_b: 'code_b_1', code_c: 'code_c_1', code_d: 'code_d_1', data_codif: 'data_codif_1' },
-//   { code_a: 'code_a_1', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_2', data_codif: 'data_codif_2' },
-//   { code_a: 'code_a_1', code_b: 'code_b_3', code_c: 'code_c_3', code_d: 'code_d_2', data_codif: 'data_codif_3' },
-//   { code_a: 'code_a_1', code_b: 'code_b_1', code_c: 'code_c_3', code_d: 'code_d_3', data_codif: 'data_codif_4' },
-//   { code_a: 'code_a_1', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_4', data_codif: 'data_codif_5' },
-//   { code_a: 'code_a_1', code_b: 'code_b_3', code_c: 'code_c_1', code_d: 'code_d_5', data_codif: 'data_codif_6' },
-//   //-----------------------------------------------
-//   { code_a: 'code_a_2', code_b: 'code_b_1', code_c: 'code_c_1', code_d: 'code_d_5', data_codif: 'data_codif_7' },
-//   { code_a: 'code_a_2', code_b: 'code_b_2', code_c: 'code_c_2', code_d: 'code_d_2', data_codif: 'data_codif_8' },
-//   { code_a: 'code_a_2', code_b: 'code_b_3', code_c: 'code_c_3', code_d: 'code_d_2', data_codif: 'data_codif_9' },
-//   { code_a: 'code_a_2', code_b: 'code_b_4', code_c: 'code_c_1', code_d: 'code_d_3', data_codif: 'data_codif_10' },
-//   { code_a: 'code_a_2', code_b: 'code_b_5', code_c: 'code_c_2', code_d: 'code_d_3', data_codif: 'data_codif_11' },
-//   { code_a: 'code_a_2', code_b: 'code_b_6', code_c: 'code_c_3', code_d: 'code_d_1', data_codif: 'data_codif_12' },
-// ];
-
-
-
-const MOCK_DATABASE_CODIFICATION2: CodificationElement2[] = [
+const MOCK_DATABASE_CODIFICATION: CodificationElement[] = [
   { code_a: 'code_a_1', lib_a: 'lib_a_1', code_b: 'code_b_1', lib_b: 'lib_b_1', code_c: 'code_c_1', lib_c: 'lib_c_1', code_d: 'code_d_1', lib_d: 'lib_d_1', data_codif: 'data_codif_1', lib_data_codif: 'lib_data_codif_1' },
   { code_a: 'code_a_1', lib_a: 'lib_a_1', code_b: 'code_b_2', lib_b: 'lib_b_2', code_c: 'code_c_2', lib_c: 'lib_c_2', code_d: 'code_d_2', lib_d: 'lib_d_2', data_codif: 'data_codif_2', lib_data_codif: 'lib_data_codif_2' },
   { code_a: 'code_a_1', lib_a: 'lib_a_1', code_b: 'code_b_3', lib_b: 'lib_b_3', code_c: 'code_c_3', lib_c: 'lib_c_3', code_d: 'code_d_2', lib_d: 'lib_d_2', data_codif: 'data_codif_3', lib_data_codif: 'lib_data_codif_3' },
@@ -160,115 +139,124 @@ const MOCK_DATABASE_PLANET_DATA: SolarSystemElement[] = [
   ],
 })
 export class SearchDataComponent implements OnInit {
-  elements = MOCK_DATABASE_ELEMENT_DATA;
-  constructor(private formBuilder: FormBuilder) { }
 
-  //----------------------------
-  @ViewChild(MatAccordion) accordion!: MatAccordion;
 
-  //----------------------------
-  // codificationData: CodificationElement[] = MOCK_DATABASE_CODIFICATION;
-  codificationData: CodificationElement2[] = MOCK_DATABASE_CODIFICATION2;
-  filters = {
+  //==============================================================================================
+  codificationData: CodificationElement[] = MOCK_DATABASE_CODIFICATION;
 
-  };
+  filters = {};
 
   codeAOptions: dropDownItem[] = []; // Options for code_a dropdown
   selectedCodeA!: boolean;
-  selectedCodeAValue!: string;
 
   codeBOptions: dropDownItem[] = []; // Options for code_b dropdown
   selectedCodeB!: boolean;
-  selectedCodeBValue!: string;
 
   codeCOptions: dropDownItem[] = []; // Options for code_C dropdown
   selectedCodeC!: boolean;
-  selectedCodeCValue!: string;
 
   codeDOptions: dropDownItem[] = []; // Options for code_d dropdown
   selectedCodeD!: boolean;
-  selectedCodeDValue!: string;
 
   dataCodifOptions: dropDownItem[] = []; // Options for data_codif dropdown
   selectedDataCodif!: boolean;
-  selectedDataCodifValue!: string;
-
-
-
 
   initDropDown() {
-    this.codeAOptions = this.getUniqueOptions(this.codificationData, 'code_a','lib_a');
+    this.codeAOptions = this.getUniqueOptions(this.codificationData, 'code_a', 'lib_a');
     this.selectedCodeA = false;
     //------------------------------
-    this.codeBOptions = this.getUniqueOptions(this.codificationData, 'code_b','lib_b');
+    this.codeBOptions = this.getUniqueOptions(this.codificationData, 'code_b', 'lib_b');
     this.selectedCodeB = false;
     // //-----------------------------
-    this.codeCOptions = this.getUniqueOptions(this.codificationData, 'code_c','lib_c');
+    this.codeCOptions = this.getUniqueOptions(this.codificationData, 'code_c', 'lib_c');
     this.selectedCodeC = false;
     //------------------------------
-    this.codeDOptions = this.getUniqueOptions(this.codificationData, 'code_d','lib_d');
+    this.codeDOptions = this.getUniqueOptions(this.codificationData, 'code_d', 'lib_d');
     this.selectedCodeD = false;
     //------------------------------
-    this.dataCodifOptions = this.getUniqueOptions(this.codificationData, 'data_codif','lib_data_codif');
+    this.dataCodifOptions = this.getUniqueOptions(this.codificationData, 'data_codif', 'lib_data_codif');
     this.selectedDataCodif = false;
   }
 
-  getUniqueOptions(data: CodificationElement2[], code: keyof CodificationElement2, lib: keyof CodificationElement2): dropDownItem[] {
+  /* 
+    Création des données uniques et non filtrés d'une liste déroulante à partir des identifiants idCode / libCode des données sources
+    Ces données sont stocké via l'interface dropDownItem (code / lib) 
+    ---------------
+    data: CodificationElement[] => les données sources (determinant leur liens)
+    idCode: keyof CodificationElement => identifiant pour récupérer les valeurs code(dropDownItem) de la liste déroulante ciblé dans les données sources
+    idLib: keyof CodificationElement => identifiant pour récupérer les valeurs lib(dropDownItem) libellés associé aux codes dans les données sources
+  */
+  getUniqueOptions(data: CodificationElement[], idCode: keyof CodificationElement, idLib: keyof CodificationElement): dropDownItem[] {
 
-    const uniqueSet = new Map<string, dropDownItem>();
+    /*
+    Les données sources peuvent contenir plusieurs fois les même valeurs du fait des combinaoires possibles.
+    Il faut donc pouvoir ne récupérer qu'une seule fois une même valeur lors de la constitution de la liste déroulante
+    */
+    const uniqueSetDropDownItems = new Map<string, dropDownItem>();
+
+    // filtrage des données à récupérer pour la liste déroulante
     data.forEach(element => {
-      const key = element[code];
-      if (!uniqueSet.has(key)) {
-        uniqueSet.set(key, { code: element[code], lib: element[lib] });
+
+      // élément filtrant pour déterminer pour quelle liste déroulante on souhaite récupérer les données
+      const key = element[idCode];
+
+      // filtrage des données data
+      if (!uniqueSetDropDownItems.has(key)) {
+
+        // set new dropDownItem (code / lib) exemple {code = element['code_a'], lib = element['lib_a']}
+        uniqueSetDropDownItems.set(key, { code: element[idCode], lib: element[idLib] });
+
       }
+
     });
-    return Array.from(uniqueSet.values());
+
+    // Ce tableau contient uniquement des éléments de menu déroulant uniques, où chaque élément est un objet avec des propriétés code et lib.
+    return Array.from(uniqueSetDropDownItems.values());
+
   }
 
+  /* 
+    Création des données uniques et filtrés d'une liste déroulante à partir des identifiants idCode / libCode des données sources
+    Ces données sont filtrées via des données stocké dans un objet filters
+    Ces données sont stocké via l'interface dropDownItem (code / lib) 
+    ---------------
+    data: CodificationElement[] => les données sources (determinant leur liens)
+    filters: { [key in keyof CodificationElement]?: string[] } filtres sur les autres données que la liste déroulante en cours
+    idCode: keyof CodificationElement => identifiant pour récupérer les valeurs code(dropDownItem) de la liste déroulante ciblé dans les données sources
+    idLib: keyof CodificationElement => identifiant pour récupérer les valeurs lib(dropDownItem) libellés associé aux codes dans les données sources
+ */
   getUniqueFiltredOptions(
-    data: CodificationElement2[],
-    filters: { [key in keyof CodificationElement2]?: string[] },
-    code: keyof CodificationElement2,
-    lib: keyof CodificationElement2
+    data: CodificationElement[],
+    filters: { [key in keyof CodificationElement]?: string[] },
+    idCode: keyof CodificationElement,
+    idLib: keyof CodificationElement
   ): dropDownItem[] {
+
+    /*
+    Les données sources peuvent contenir plusieurs fois les même valeurs du fait des combinaoires possibles.
+    Il faut donc pouvoir ne récupérer qu'une seule fois une même valeur lors de la constitution de la liste déroulante
+    */
     const uniqueSet = new Map<string, dropDownItem>();
-  
+        // élément filtrant pour déterminer les données à garder à partir des données sources
     data
       .filter(element => {
-        return (Object.keys(filters) as (keyof CodificationElement2)[]).every(filterKey => {
+        return (Object.keys(filters) as (keyof CodificationElement)[]).every(filterKey => {
           const filterValues = filters[filterKey];
           return filterValues ? filterValues.includes(element[filterKey]) : true;
         });
       })
       .forEach(element => {
-        const key = element[code];
+        // élément filtrant pour déterminer pour quelle liste déroulante on souhaite récupérer les données
+        const key = element[idCode];
         if (!uniqueSet.has(key)) {
-          uniqueSet.set(key, { code: element[code], lib: element[lib] });
+          // set new dropDownItem (code / lib) exemple {code = element['code_a'], lib = element['lib_a']}
+          uniqueSet.set(key, { code: element[idCode], lib: element[idLib] });
         }
       });
-  
+
+    // Ce tableau contient uniquement des éléments de menu déroulant uniques, où chaque élément est un objet avec des propriétés code et lib.
     return Array.from(uniqueSet.values());
   }
-
-
-  // getUniqueOptions(data: any[], property: string): string[] {
-  //   const uniqueSet = new Set(data.map(element => element[property]));
-  //   return Array.from(uniqueSet);
-  // }
-
-  // getUniqueFiltredOptions(data: any[], filters: { [key: string]: string[] }, property: string): string[] {
-  //   const uniqueSet = new Set(
-  //     data
-  //       .filter(element => {
-  //         return Object.keys(filters).every(filterKey => {
-  //           return filters[filterKey].includes(element[filterKey]);
-  //         });
-  //       })
-  //       .map(element => element[property])
-  //   );
-  //   return Array.from(uniqueSet);
-  // }
-
 
   addFilterValue = (filters: { [key: string]: string[] }, key: string, value: string) => {
     filters[key] = [value];
@@ -278,114 +266,94 @@ export class SearchDataComponent implements OnInit {
     delete filters[key];
   };
 
-  trigerfilterCodeOptions(dropdownOrigin: string, selectedCode: string) {
-    console.log("++++++++++++++++");
-    console.log("dropdownOrigin : " + dropdownOrigin);
-    console.log("selectedCode : " + selectedCode);
 
-    if (dropdownOrigin === 'code_a') {
-      this.selectedCodeA = true;
-      this.simpleForm.controls['codeA'].patchValue(selectedCode)
-      this.addFilterValue(this.filters, 'code_a', this.simpleForm.controls['codeA'].value);
+  setFilterDataValue(code: string, control: string, selectedCode: string, isSelectedCode: boolean, controlsForm: FormGroup, filters: {}) {
+    isSelectedCode = true;
+    controlsForm.controls[control].patchValue(selectedCode)
+    this.addFilterValue(filters, code, controlsForm.controls[control].value);
+  }
+
+  trigerfilterCodeOptions(dropdownCode: string, selectedCode: string) {
+
+    console.log("++++++++++++++++");
+    console.log("dropdown triggered code: " + dropdownCode);
+    console.log("dropdown selected Code : " + selectedCode);
+    console.log("++++++++++++++++");
+
+    if (dropdownCode === 'code_a') {
+      this.setFilterDataValue(dropdownCode, 'codeA', selectedCode, true, this.simpleForm, this.filters)
+      // this.selectedCodeA = true;
+      // this.simpleForm.controls['codeA'].patchValue(selectedCode)
+      // this.addFilterValue(this.filters, 'code_a', this.simpleForm.controls['codeA'].value);
     }
-    if (dropdownOrigin === 'code_b') {
-      this.selectedCodeB = true;
-      this.simpleForm.controls['codeB'].patchValue(selectedCode)
-      this.addFilterValue(this.filters, 'code_b', this.simpleForm.controls['codeB'].value);
+    if (dropdownCode === 'code_b') {
+      this.setFilterDataValue(dropdownCode, 'codeB', selectedCode, true, this.simpleForm, this.filters)
+      // this.selectedCodeB = true;
+      // this.simpleForm.controls['codeB'].patchValue(selectedCode)
+      // this.addFilterValue(this.filters, 'code_b', this.simpleForm.controls['codeB'].value);
     }
-    if (dropdownOrigin === 'code_c') {
-      this.selectedCodeC = true;
-      this.simpleForm.controls['codeC'].patchValue(selectedCode)
-      this.addFilterValue(this.filters, 'code_c', this.simpleForm.controls['codeC'].value);
+    if (dropdownCode === 'code_c') {
+      this.setFilterDataValue(dropdownCode, 'codeC', selectedCode, true, this.simpleForm, this.filters)
+      // this.selectedCodeC = true;
+      // this.simpleForm.controls['codeC'].patchValue(selectedCode)
+      // this.addFilterValue(this.filters, 'code_c', this.simpleForm.controls['codeC'].value);
     }
-    if (dropdownOrigin === 'code_d') {
-      this.selectedCodeD = true;
-      this.simpleForm.controls['codeD'].patchValue(selectedCode)
-      this.addFilterValue(this.filters, 'code_d', this.simpleForm.controls['codeD'].value);
+    if (dropdownCode === 'code_d') {
+      this.setFilterDataValue(dropdownCode, 'codeD', selectedCode, true, this.simpleForm, this.filters)
+      // this.selectedCodeD = true;
+      // this.simpleForm.controls['codeD'].patchValue(selectedCode)
+      // this.addFilterValue(this.filters, 'code_d', this.simpleForm.controls['codeD'].value);
     }
-    if (dropdownOrigin === 'data_codif') {
-      this.selectedDataCodif = true;
-      this.simpleForm.controls['dataCodif'].patchValue(selectedCode)
-      this.addFilterValue(this.filters, 'data_codif', this.simpleForm.controls['dataCodif'].value);
+    if (dropdownCode === 'data_codif') {
+      this.setFilterDataValue(dropdownCode, 'dataCodif', selectedCode, true, this.simpleForm, this.filters)
+      // this.selectedDataCodif = true;
+      // this.simpleForm.controls['dataCodif'].patchValue(selectedCode)
+      // this.addFilterValue(this.filters, 'data_codif', this.simpleForm.controls['dataCodif'].value);
     }
     //------------------------------------------------
 
-    // if (dropdownOrigin != 'code_a') {
-    console.log("++++++++++++++++");
-    this.codeAOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_a', 'lib_a');
-    if (this.codeAOptions.length == 1) {
-      this.simpleForm.controls['codeA'].patchValue(this.codeAOptions[0].code)
-    } else {
-      this.simpleForm.controls['codeA'].patchValue(null)
-    }
-    console.log("code_a : " + this.codeAOptions);
+    this.updateDropDown();
 
-    console.log("++++++++++++++++");
-    this.codeBOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_b', 'lib_b');
-    if (this.codeBOptions.length == 1) {
-      this.simpleForm.controls['codeB'].patchValue(this.codeBOptions[0].code)
-    } else {
-      this.simpleForm.controls['codeB'].patchValue(null)
-    }
-    console.log("code_b : " + this.codeBOptions);
-
-    console.log("++++++++++++++++");
-    this.codeCOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_c', 'lib_c');
-    if (this.codeCOptions.length == 1) {
-      this.simpleForm.controls['codeC'].patchValue(this.codeCOptions[0].code)
-    } else {
-      this.simpleForm.controls['codeC'].patchValue(null)
-    }
-    console.log("code_c : " + this.codeBOptions);
-
-    console.log("++++++++++++++++");
-    this.codeDOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_d', 'lib_d');
-    if (this.codeDOptions.length == 1) {
-      this.simpleForm.controls['codeD'].patchValue(this.codeDOptions[0].code)
-    } else {
-      this.simpleForm.controls['codeD'].patchValue(null)
-    }
-    console.log("code_d : " + this.codeBOptions);
-
-    console.log("++++++++++++++++");
-    this.dataCodifOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'data_codif', 'lib_data_codif');
-    if (this.dataCodifOptions.length == 1) {
-      this.simpleForm.controls['dataCodif'].patchValue(this.dataCodifOptions[0].code)
-    } else {
-      this.simpleForm.controls['dataCodif'].patchValue(null)
-    }
-    console.log("data_codif : " + this.dataCodifOptions);
 
     console.log("==============================================");
   }
 
-  clickEvent(formFieldCode: string) {
+  clickEvent(code: string) {
     console.log("-----------------");
-    console.log("formFieldCode cleared : " + formFieldCode);
+    console.log("dropdown cleared Code : " + code);
+    console.log("-----------------");
 
-    this.simpleForm.controls[formFieldCode].patchValue(null);
-    if (formFieldCode === 'codeA') {
+    if (code === 'code_a') {
       this.selectedCodeA = false;
       this.removeFilterValue(this.filters, 'code_a');
+      this.simpleForm.controls['codeA'].patchValue(null);
     }
-    else if (formFieldCode === 'codeB') {
+    else if (code === 'code_b') {
       this.selectedCodeB = false;
       this.removeFilterValue(this.filters, 'code_b');
+      this.simpleForm.controls['codeB'].patchValue(null);
     }
-    else if (formFieldCode === 'codeC') {
+    else if (code === 'code_c') {
       this.selectedCodeC = false;
       this.removeFilterValue(this.filters, 'code_c');
+      this.simpleForm.controls['codeC'].patchValue(null);
     }
-    else if (formFieldCode === 'codeD') {
+    else if (code === 'code_d') {
       this.selectedCodeD = false;
       this.removeFilterValue(this.filters, 'code_d');
+      this.simpleForm.controls['codeD'].patchValue(null);
     }
-    else if (formFieldCode === 'dataCodif') {
-      this.removeFilterValue(this.filters, 'data_codif');
+    else if (code === 'data_codif') {
       this.selectedDataCodif = false;
-
+      this.removeFilterValue(this.filters, 'data_codif');
+      this.simpleForm.controls['dataCodif'].patchValue(null);
     }
 
+    this.updateDropDown();
+    console.log("==============================================");
+  }
+
+  updateDropDown() {
     console.log("-----------------")
     this.codeAOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_a', 'lib_a');
     if (this.codeAOptions.length == 1) {
@@ -393,7 +361,7 @@ export class SearchDataComponent implements OnInit {
     } else {
       this.simpleForm.controls['codeA'].patchValue(null)
     }
-    console.log("code_a : " + this.codeAOptions);
+    console.log("code_a : " + this.codeAOptions); //TDODO log code et lib
 
     console.log("-----------------")
     this.codeBOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_b', 'lib_b');
@@ -430,10 +398,14 @@ export class SearchDataComponent implements OnInit {
       this.simpleForm.controls['dataCodif'].patchValue(null)
     }
     console.log("data_codif : " + this.dataCodifOptions);
-
-    console.log("==============================================");
-
   }
+  //==============================================================================================
+  elements = MOCK_DATABASE_ELEMENT_DATA;
+
+  constructor(private formBuilder: FormBuilder) { }
+
+  //----------------------------
+  @ViewChild(MatAccordion) accordion!: MatAccordion;
 
   //----------------------------
   columns: string[] = ['position', 'name', 'weight', 'symbol', 'action'];
