@@ -147,42 +147,42 @@ export class SearchDataComponent implements OnInit {
   filters = {};
 
   codeAOptions: dropDownItem[] = []; // Options for code_a dropdown
-  selectedCodeA!: boolean;
+  isSelectedCodeA!: boolean;
 
   codeBOptions: dropDownItem[] = []; // Options for code_b dropdown
-  selectedCodeB!: boolean;
+  isSelectedCodeB!: boolean;
 
   codeCOptions: dropDownItem[] = []; // Options for code_C dropdown
-  selectedCodeC!: boolean;
+  isSelectedCodeC!: boolean;
 
   codeDOptions: dropDownItem[] = []; // Options for code_d dropdown
-  selectedCodeD!: boolean;
+  isSelectedCodeD!: boolean;
 
   dataCodifOptions: dropDownItem[] = []; // Options for data_codif dropdown
-  selectedDataCodif!: boolean;
+  isSelectedDataCodif!: boolean;
 
   initDropDown() {
     this.codeAOptions = this.getUniqueOptions(this.codificationData, 'code_a', 'lib_a');
-    this.selectedCodeA = false;
+    this.isSelectedCodeA = false;
     //------------------------------
     this.codeBOptions = this.getUniqueOptions(this.codificationData, 'code_b', 'lib_b');
-    this.selectedCodeB = false;
+    this.isSelectedCodeB = false;
     // //-----------------------------
     this.codeCOptions = this.getUniqueOptions(this.codificationData, 'code_c', 'lib_c');
-    this.selectedCodeC = false;
+    this.isSelectedCodeC = false;
     //------------------------------
     this.codeDOptions = this.getUniqueOptions(this.codificationData, 'code_d', 'lib_d');
-    this.selectedCodeD = false;
+    this.isSelectedCodeD = false;
     //------------------------------
     this.dataCodifOptions = this.getUniqueOptions(this.codificationData, 'data_codif', 'lib_data_codif');
-    this.selectedDataCodif = false;
+    this.isSelectedDataCodif = false;
   }
 
   /* 
     Création des données uniques et non filtrés d'une liste déroulante à partir des identifiants idCode / libCode des données sources
     Ces données sont stocké via l'interface dropDownItem (code / lib) 
     ---------------
-    data: CodificationElement[] => les données sources (determinant leur liens)
+    data: CodificationElement[] => les données sources (determinant leur liens) (ces données ne sont pas modifiées)
     idCode: keyof CodificationElement => identifiant pour récupérer les valeurs code(dropDownItem) de la liste déroulante ciblé dans les données sources
     idLib: keyof CodificationElement => identifiant pour récupérer les valeurs lib(dropDownItem) libellés associé aux codes dans les données sources
   */
@@ -220,7 +220,7 @@ export class SearchDataComponent implements OnInit {
     Ces données sont filtrées via des données stocké dans un objet filters
     Ces données sont stocké via l'interface dropDownItem (code / lib) 
     ---------------
-    data: CodificationElement[] => les données sources (determinant leur liens)
+    data: CodificationElement[] => les données sources (determinant leur liens) (ces données ne sont pas modifiées)
     filters: { [key in keyof CodificationElement]?: string[] } filtres sur les autres données que la liste déroulante en cours
     idCode: keyof CodificationElement => identifiant pour récupérer les valeurs code(dropDownItem) de la liste déroulante ciblé dans les données sources
     idLib: keyof CodificationElement => identifiant pour récupérer les valeurs lib(dropDownItem) libellés associé aux codes dans les données sources
@@ -237,7 +237,7 @@ export class SearchDataComponent implements OnInit {
     Il faut donc pouvoir ne récupérer qu'une seule fois une même valeur lors de la constitution de la liste déroulante
     */
     const uniqueSet = new Map<string, dropDownItem>();
-        // élément filtrant pour déterminer les données à garder à partir des données sources
+    // élément filtrant pour déterminer les données à garder à partir des données sources
     data
       .filter(element => {
         return (Object.keys(filters) as (keyof CodificationElement)[]).every(filterKey => {
@@ -258,21 +258,41 @@ export class SearchDataComponent implements OnInit {
     return Array.from(uniqueSet.values());
   }
 
-  addFilterValue = (filters: { [key: string]: string[] }, key: string, value: string) => {
-    filters[key] = [value];
+
+  /*
+    Actions lors de la définition du filtre
+  */
+  setFilterDataValue(code: string, control: string, selectedCode: string) {
+    this.simpleForm.controls[control].patchValue(selectedCode)
+    this.addFilterValue(this.filters, code, this.simpleForm.controls[control].value);
+  }
+
+  /*
+     Ajout de filtre : permet d'ajouter plusieur valuer sur une même clé exemple code_a : val1 , val2,... n 
+  */
+  addFilterValue = (filters: { [key: string]: string[] }, key: string, filter: string) => {
+    filters[key] = [filter];
   };
 
+  /*
+      supprime toutes les valeurs du filtre pour la clé doonné exemple code_a : val1 , val2,... n 
+  */
   removeFilterValue = (filters: { [key: string]: string[] }, key: string) => {
     delete filters[key];
   };
 
-
-  setFilterDataValue(code: string, control: string, selectedCode: string, isSelectedCode: boolean, controlsForm: FormGroup, filters: {}) {
-    isSelectedCode = true;
-    controlsForm.controls[control].patchValue(selectedCode)
-    this.addFilterValue(filters, code, controlsForm.controls[control].value);
+  /*
+    Actions lors de la ré-initialisation du filtre
+  */
+  cleanFilter( key: string, control: string){
+    this.removeFilterValue(this.filters, key);
+    this.simpleForm.controls[control].patchValue(null);
   }
 
+
+  /*
+    Action effectuée lors de la secltion d'une valeur d'une liste déroulante
+  */
   trigerfilterCodeOptions(dropdownCode: string, selectedCode: string) {
 
     console.log("++++++++++++++++");
@@ -281,79 +301,83 @@ export class SearchDataComponent implements OnInit {
     console.log("++++++++++++++++");
 
     if (dropdownCode === 'code_a') {
-      this.setFilterDataValue(dropdownCode, 'codeA', selectedCode, true, this.simpleForm, this.filters)
-      // this.selectedCodeA = true;
-      // this.simpleForm.controls['codeA'].patchValue(selectedCode)
-      // this.addFilterValue(this.filters, 'code_a', this.simpleForm.controls['codeA'].value);
+      this.setFilterDataValue(dropdownCode, 'codeA', selectedCode)
+      this.isSelectedCodeA = true;
     }
     if (dropdownCode === 'code_b') {
-      this.setFilterDataValue(dropdownCode, 'codeB', selectedCode, true, this.simpleForm, this.filters)
-      // this.selectedCodeB = true;
-      // this.simpleForm.controls['codeB'].patchValue(selectedCode)
-      // this.addFilterValue(this.filters, 'code_b', this.simpleForm.controls['codeB'].value);
+      this.setFilterDataValue(dropdownCode, 'codeB', selectedCode)
+      this.isSelectedCodeB = true;
     }
     if (dropdownCode === 'code_c') {
-      this.setFilterDataValue(dropdownCode, 'codeC', selectedCode, true, this.simpleForm, this.filters)
-      // this.selectedCodeC = true;
-      // this.simpleForm.controls['codeC'].patchValue(selectedCode)
-      // this.addFilterValue(this.filters, 'code_c', this.simpleForm.controls['codeC'].value);
+      this.setFilterDataValue(dropdownCode, 'codeC', selectedCode)
+      this.isSelectedCodeC = true;
     }
     if (dropdownCode === 'code_d') {
-      this.setFilterDataValue(dropdownCode, 'codeD', selectedCode, true, this.simpleForm, this.filters)
-      // this.selectedCodeD = true;
-      // this.simpleForm.controls['codeD'].patchValue(selectedCode)
-      // this.addFilterValue(this.filters, 'code_d', this.simpleForm.controls['codeD'].value);
+      this.setFilterDataValue(dropdownCode, 'codeD', selectedCode)
+      this.isSelectedCodeD = true;
     }
     if (dropdownCode === 'data_codif') {
-      this.setFilterDataValue(dropdownCode, 'dataCodif', selectedCode, true, this.simpleForm, this.filters)
-      // this.selectedDataCodif = true;
-      // this.simpleForm.controls['dataCodif'].patchValue(selectedCode)
-      // this.addFilterValue(this.filters, 'data_codif', this.simpleForm.controls['dataCodif'].value);
+      this.setFilterDataValue(dropdownCode, 'dataCodif', selectedCode)
+      this.isSelectedDataCodif = true;
     }
     //------------------------------------------------
 
-    this.updateDropDown();
+    this.updateAllDropDown();
 
 
     console.log("==============================================");
   }
 
-  clickEvent(code: string) {
+  cleanDropDowSelect(code: string) {
     console.log("-----------------");
     console.log("dropdown cleared Code : " + code);
     console.log("-----------------");
 
     if (code === 'code_a') {
-      this.selectedCodeA = false;
-      this.removeFilterValue(this.filters, 'code_a');
-      this.simpleForm.controls['codeA'].patchValue(null);
+      this.isSelectedCodeA = false;
+      this.cleanFilter( 'code_a', 'codeA');
     }
     else if (code === 'code_b') {
-      this.selectedCodeB = false;
-      this.removeFilterValue(this.filters, 'code_b');
-      this.simpleForm.controls['codeB'].patchValue(null);
+      this.isSelectedCodeB = false;
+      this.cleanFilter( 'code_b', 'codeB');
     }
     else if (code === 'code_c') {
-      this.selectedCodeC = false;
-      this.removeFilterValue(this.filters, 'code_c');
-      this.simpleForm.controls['codeC'].patchValue(null);
+      this.isSelectedCodeC = false;
+      this.cleanFilter( 'code_c', 'codeC');
     }
     else if (code === 'code_d') {
-      this.selectedCodeD = false;
-      this.removeFilterValue(this.filters, 'code_d');
-      this.simpleForm.controls['codeD'].patchValue(null);
+      this.isSelectedCodeD = false;
+      this.cleanFilter( 'code_d', 'codeD');
     }
     else if (code === 'data_codif') {
-      this.selectedDataCodif = false;
-      this.removeFilterValue(this.filters, 'data_codif');
-      this.simpleForm.controls['dataCodif'].patchValue(null);
+      this.isSelectedDataCodif = false;
+      this.cleanFilter( 'data_codif', 'dataCodif');
     }
 
-    this.updateDropDown();
+    this.updateAllDropDown();
     console.log("==============================================");
   }
 
-  updateDropDown() {
+
+  /*
+    En Angular, si vous n'utilisez pas le mot-clé this pour lier une propriété de composant à une entrée de modèle, 
+    la variable ciblée ne sera pas mise à jour car le modèle n'est pas conscient des changements de propriété du composant. 
+    Cela est dû au mécanisme de détection des modifications d'Angular, 
+    qui repose sur des liaisons définies explicitement pour suivre et propager les changements de données entre le composant et la vue.
+    Si vous omettez le mot-clé this, vous créez essentiellement une variable locale dans le modèle qui n'est pas directement connectée à la propriété du composant. 
+    En conséquence, le modèle reste inconscient de toute modification de la propriété du composant et l'élément d'entrée ne sera pas mis à jour.
+  */
+  // updateDropDown(codeOptions: dropDownItem[], idCode: keyof CodificationElement, idLib: keyof CodificationElement, control: string) {
+  //   codeOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, idCode, idLib);
+  //   if (codeOptions.length == 1) {
+  //     this.simpleForm.controls[control].patchValue(codeOptions[0].code)
+  //   } else {
+  //     this.simpleForm.controls[control].patchValue(null)
+  //   }
+  //   codeOptions.forEach(item => console.log(idCode + ":" + `${item.code}`, "+" + idLib + ":" + `${item.lib}`));
+  // }
+
+  updateAllDropDown() {
     console.log("-----------------")
     this.codeAOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_a', 'lib_a');
     if (this.codeAOptions.length == 1) {
@@ -361,7 +385,8 @@ export class SearchDataComponent implements OnInit {
     } else {
       this.simpleForm.controls['codeA'].patchValue(null)
     }
-    console.log("code_a : " + this.codeAOptions); //TDODO log code et lib
+    this.codeAOptions.forEach(item => console.log(`code_a: ${item.code}, lib_a: ${item.lib}`));
+
 
     console.log("-----------------")
     this.codeBOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_b', 'lib_b');
@@ -388,7 +413,7 @@ export class SearchDataComponent implements OnInit {
     } else {
       this.simpleForm.controls['codeD'].patchValue(null)
     }
-    console.log("code_d : " + this.codeBOptions);
+    console.log("code_d : " + this.codeDOptions);
 
     console.log("-----------------")
     this.dataCodifOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'data_codif', 'lib_data_codif');
