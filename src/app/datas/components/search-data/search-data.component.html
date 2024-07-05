@@ -49,13 +49,13 @@
 
                 <mat-form-field>
                     <mat-label>Code A</mat-label>
-                    <mat-select formControlName="codeA" (selectionChange)="trigerfilterCodeOptions('code_a', $event.value)" >
+                    <mat-select formControlName="codeA" (selectionChange)="onSelectDropDown('code_a','codeA', $event.value)" >
                         <mat-option *ngFor="let option of codeAOptions" [value]="option.code">
                             {{ option.code }}  
                         </mat-option>
                     </mat-select>
                     @if(isSelectedCodeA){
-                    <button mat-icon-button matSuffix (click)="cleanDropDowSelect('code_a')"> <mat-icon>close</mat-icon></button>
+                    <button mat-icon-button matSuffix (click)="cleanDropDowSelect('code_a','codeA')"> <mat-icon>close</mat-icon></button>
                     }
                 </mat-form-field>
 
@@ -63,13 +63,13 @@
 
                 <mat-form-field>
                     <mat-label>Code B</mat-label>
-                    <mat-select formControlName="codeB" (selectionChange)="trigerfilterCodeOptions('code_b', $event.value)" >
+                    <mat-select formControlName="codeB" (selectionChange)="onSelectDropDown('code_b','codeB', $event.value)" >
                         <mat-option *ngFor="let option of codeBOptions" [value]="option.code">
                             {{ option.code }} 
                         </mat-option>
                     </mat-select>
                     @if(isSelectedCodeB){
-                    <button mat-icon-button matSuffix (click)="cleanDropDowSelect('code_b')"> <mat-icon>close</mat-icon></button>
+                    <button mat-icon-button matSuffix (click)="cleanDropDowSelect('code_b','codeB')"> <mat-icon>close</mat-icon></button>
                     }
 
                 </mat-form-field>
@@ -78,13 +78,13 @@
 
                 <mat-form-field>
                     <mat-label>Code C</mat-label>
-                    <mat-select formControlName="codeC" (selectionChange)="trigerfilterCodeOptions('code_c', $event.value)" >
+                    <mat-select formControlName="codeC" (selectionChange)="onSelectDropDown('code_c','codeC', $event.value)" >
                         <mat-option *ngFor="let option of codeCOptions" [value]="option.code">
                             {{ option.code }}  
                         </mat-option>
                     </mat-select>
                     @if(isSelectedCodeC){
-                    <button mat-icon-button matSuffix (click)="cleanDropDowSelect('code_c')"> <mat-icon>close</mat-icon></button>
+                    <button mat-icon-button matSuffix (click)="cleanDropDowSelect('code_c','codeC')"> <mat-icon>close</mat-icon></button>
                     }
                 </mat-form-field>
 
@@ -92,28 +92,27 @@
 
                 <mat-form-field>
                     <mat-label>Code D</mat-label>
-                    <mat-select formControlName="codeD" (selectionChange)="trigerfilterCodeOptions('code_d', $event.value)" >
+                    <mat-select formControlName="codeD" (selectionChange)="onSelectDropDown('code_d','codeD', $event.value)" >
                         <mat-option *ngFor="let option of codeDOptions" [value]="option.code">
                             {{ option.code }}  
                         </mat-option>
                     </mat-select>
                     @if(isSelectedCodeD){
-                    <button mat-icon-button matSuffix (click)="cleanDropDowSelect('code_d')"> <mat-icon>close</mat-icon></button>
+                    <button mat-icon-button matSuffix (click)="cleanDropDowSelect('code_d','codeD')"> <mat-icon>close</mat-icon></button>
                     }
-
                 </mat-form-field>
 
                 <br />
 
                 <mat-form-field>
                     <mat-label>data Codif</mat-label>
-                    <mat-select formControlName="dataCodif" (selectionChange)="trigerfilterCodeOptions('data_codif', $event.value)" >
+                    <mat-select formControlName="dataCodif" (selectionChange)="onSelectDropDown('data_codif', 'dataCodif', $event.value)" >
                         <mat-option *ngFor="let option of dataCodifOptions" [value]="option.code">
                             {{ option.code }}  
                         </mat-option>
                     </mat-select>
                     @if(isSelectedDataCodif){
-                    <button mat-icon-button matSuffix (click)="cleanDropDowSelect('data_codif')"> <mat-icon>close</mat-icon></button>
+                    <button mat-icon-button matSuffix (click)="cleanDropDowSelect('data_codif','dataCodif')"> <mat-icon>close</mat-icon></button>
                     }
                 </mat-form-field>
 

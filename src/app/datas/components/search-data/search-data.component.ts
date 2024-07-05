@@ -33,11 +33,11 @@ const MOCK_DATABASE_CODIFICATION: CodificationElement[] = [
 ];
 
 const dropdownOptions = [
-  { codeProperty: 'code_a' as  keyof CodificationElement, labelProperty: 'lib_a' as  keyof CodificationElement, formControl: 'codeA' },
-  { codeProperty: 'code_b' as  keyof CodificationElement, labelProperty: 'lib_b' as  keyof CodificationElement, formControl: 'codeB' },
-  { codeProperty: 'code_c' as  keyof CodificationElement, labelProperty: 'lib_c' as  keyof CodificationElement, formControl: 'codeC' },
-  { codeProperty: 'code_d' as  keyof CodificationElement, labelProperty: 'lib_d' as  keyof CodificationElement, formControl: 'codeD' },
-  { codeProperty: 'data_codif' as  keyof CodificationElement, labelProperty: 'lib_data_codif' as  keyof CodificationElement, formControl: 'dataCodif' },
+  { codeProperty: 'code_a' as keyof CodificationElement, labelProperty: 'lib_a' as keyof CodificationElement, formControl: 'codeA' },
+  { codeProperty: 'code_b' as keyof CodificationElement, labelProperty: 'lib_b' as keyof CodificationElement, formControl: 'codeB' },
+  { codeProperty: 'code_c' as keyof CodificationElement, labelProperty: 'lib_c' as keyof CodificationElement, formControl: 'codeC' },
+  { codeProperty: 'code_d' as keyof CodificationElement, labelProperty: 'lib_d' as keyof CodificationElement, formControl: 'codeD' },
+  { codeProperty: 'data_codif' as keyof CodificationElement, labelProperty: 'lib_data_codif' as keyof CodificationElement, formControl: 'dataCodif' },
 ];
 
 const MOCK_DATABASE_ELEMENT_DATA: PeriodicElement[] = [
@@ -148,7 +148,8 @@ const MOCK_DATABASE_PLANET_DATA: SolarSystemElement[] = [
 })
 export class SearchDataComponent implements OnInit {
 
-
+  //==============================================================================================
+  //                                 GESTION MENU DEROULANT
   //==============================================================================================
   codificationData: CodificationElement[] = MOCK_DATABASE_CODIFICATION;
 
@@ -169,7 +170,7 @@ export class SearchDataComponent implements OnInit {
   dataCodifOptions: dropDownItem[] = []; // Options for data_codif dropdown
   isSelectedDataCodif!: boolean;
 
-  initDropDown() {
+  initDropDown() { //TODO factoriser
     this.codeAOptions = this.getUniqueOptions(this.codificationData, 'code_a', 'lib_a');
     this.isSelectedCodeA = false;
     //------------------------------
@@ -185,6 +186,74 @@ export class SearchDataComponent implements OnInit {
     this.dataCodifOptions = this.getUniqueOptions(this.codificationData, 'data_codif', 'lib_data_codif');
     this.isSelectedDataCodif = false;
   }
+
+
+  /*
+    Action effectuée lors de la secltion d'une valeur d'une liste déroulante
+  */
+  onSelectDropDown(dropdownCode: string, control: string, selectedCode: string) {
+
+    console.log("++++++++++++++++");
+    console.log("dropdown triggered code: " + dropdownCode);
+    console.log("dropdown selected Code : " + selectedCode);
+    console.log("++++++++++++++++");
+
+    this.setFilterDataValue(dropdownCode, control, selectedCode);
+    (this as any)[`isSelected${this.capitalise(control)}`] = true;
+
+    this.updateAllDropDown();
+    console.log("==============================================");
+  }
+
+  /*
+    Action effectuée lors de la suppression de la valeur séléctionnée d'une liste déroulante
+  */
+  cleanDropDowSelect(key: string, control: string) {
+
+    console.log("-----------------");
+    console.log("dropdown cleared Code : " + control);
+    console.log("-----------------");
+
+    (this as any)[`isSelected${this.capitalise(control)}`] = false;
+    this.cleanFilter(key, control);
+
+    this.updateAllDropDown();
+    console.log("==============================================");
+  }
+
+  /*
+    En Angular, si vous n'utilisez pas le mot-clé this pour lier une propriété de composant à une entrée de modèle, 
+    la variable ciblée ne sera pas mise à jour car le modèle n'est pas conscient des changements de propriété du composant. 
+    Cela est dû au mécanisme de détection des modifications d'Angular, 
+    qui repose sur des liaisons définies explicitement pour suivre et propager les changements de données entre le composant et la vue.
+    Si vous omettez le mot-clé this, vous créez essentiellement une variable locale dans le modèle qui n'est pas directement connectée à la propriété du composant. 
+    En conséquence, le modèle reste inconscient de toute modification de la propriété du composant et l'élément d'entrée ne sera pas mis à jour.
+    Il utiliser l'expression (this as any)[`${option.formControl}Options`] = filteredOptions; // Dynamically set the options array
+  */
+  updateAllDropDown() {
+
+    for (const option of dropdownOptions) {
+
+      // mise à jour des valeurs du menu deroulant
+      console.log("updateAllDropDown --> mise à jour des valeurs du menu deroulant " + option.formControl);
+      const filteredOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, option.codeProperty, option.labelProperty);
+      (this as any)[`${option.formControl}Options`] = filteredOptions; // Dynamically set the options array
+      console.log("updateAllDropDown --> valeurs du menu deroulant ", (this as any)[`${option.formControl}Options`]);
+
+      // si une seule valeur possible pour le menu déroulant
+      console.log("updateAllDropDown --> nombre de valeur du menu deroulant ", filteredOptions.length);
+      if (filteredOptions.length === 1) {
+        this.simpleForm.controls[option.formControl].patchValue(filteredOptions[0].code);
+        console.log("updateAllDropDown --> valeur séléctionée du menu déroulant ", filteredOptions[0].code);
+      } else {
+        this.simpleForm.controls[option.formControl].patchValue(null);
+      }
+
+      console.log("..............")
+    }
+  }
+
+
 
   /* 
     Création des données uniques et non filtrés d'une liste déroulante à partir des identifiants idCode / libCode des données sources
@@ -222,6 +291,8 @@ export class SearchDataComponent implements OnInit {
     return Array.from(uniqueSetDropDownItems.values());
 
   }
+
+  //-------------------------------UTILS MENU DEROULANT 
 
   /* 
     Création des données uniques et filtrés d'une liste déroulante à partir des identifiants idCode / libCode des données sources
@@ -266,7 +337,6 @@ export class SearchDataComponent implements OnInit {
     return Array.from(uniqueSet.values());
   }
 
-
   /*
     Actions lors de la définition du filtre
   */
@@ -283,7 +353,7 @@ export class SearchDataComponent implements OnInit {
   };
 
   /*
-      supprime toutes les valeurs du filtre pour la clé doonné exemple code_a : val1 , val2,... n 
+      Supprime toutes les valeurs du filtre pour la clé doonné exemple code_a : val1 , val2,... n 
   */
   removeFilterValue = (filters: { [key: string]: string[] }, key: string) => {
     delete filters[key];
@@ -292,96 +362,19 @@ export class SearchDataComponent implements OnInit {
   /*
     Actions lors de la ré-initialisation du filtre
   */
-  cleanFilter( key: string, control: string){
+  cleanFilter(key: string, control: string) {
     this.removeFilterValue(this.filters, key);
     this.simpleForm.controls[control].patchValue(null);
   }
 
 
-  /*
-    Action effectuée lors de la secltion d'une valeur d'une liste déroulante
-  */
-  trigerfilterCodeOptions(dropdownCode: string, selectedCode: string) {
-
-    console.log("++++++++++++++++");
-    console.log("dropdown triggered code: " + dropdownCode);
-    console.log("dropdown selected Code : " + selectedCode);
-    console.log("++++++++++++++++");
-
-    if (dropdownCode === 'code_a') {
-      this.setFilterDataValue(dropdownCode, 'codeA', selectedCode)
-      this.isSelectedCodeA = true;
-    }
-    if (dropdownCode === 'code_b') {
-      this.setFilterDataValue(dropdownCode, 'codeB', selectedCode)
-      this.isSelectedCodeB = true;
-    }
-    if (dropdownCode === 'code_c') {
-      this.setFilterDataValue(dropdownCode, 'codeC', selectedCode)
-      this.isSelectedCodeC = true;
-    }
-    if (dropdownCode === 'code_d') {
-      this.setFilterDataValue(dropdownCode, 'codeD', selectedCode)
-      this.isSelectedCodeD = true;
-    }
-    if (dropdownCode === 'data_codif') {
-      this.setFilterDataValue(dropdownCode, 'dataCodif', selectedCode)
-      this.isSelectedDataCodif = true;
-    }
-    //------------------------------------------------
-
-    this.updateAllDropDown();
-
-
-    console.log("==============================================");
+  capitalise(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
-  cleanDropDowSelect(code: string) {
-    console.log("-----------------");
-    console.log("dropdown cleared Code : " + code);
-    console.log("-----------------");
-    if (code === 'code_a') {
-      this.isSelectedCodeA = false;
-      this.cleanFilter( 'code_a', 'codeA');
-    }
-    else if (code === 'code_b') {
-      this.isSelectedCodeB = false;
-      this.cleanFilter( 'code_b', 'codeB');
-    }
-    else if (code === 'code_c') {
-      this.isSelectedCodeC = false;
-      this.cleanFilter( 'code_c', 'codeC');
-    }
-    else if (code === 'code_d') {
-      this.isSelectedCodeD = false;
-      this.cleanFilter( 'code_d', 'codeD');
-    }
-    else if (code === 'data_codif') {
-      this.isSelectedDataCodif = false;
-      this.cleanFilter( 'data_codif', 'dataCodif');
-    }
-
-    this.updateAllDropDown();
-    console.log("==============================================");
-  }
-
-  updateDropDownOption(option: any, filteredOptions: any[]) {
-    if (filteredOptions.length === 1) {
-      this.simpleForm.controls[option.formControl].patchValue(filteredOptions[0].code);
-    } else {
-      this.simpleForm.controls[option.formControl].patchValue(null);
-    }
-    console.log(`${option.codeProperty} : `, filteredOptions);
-    console.log("..............")
-  }
-
-  updateAllDropDown() {
-    for (const option of dropdownOptions) {
-      const filteredOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, option.codeProperty, option.labelProperty);
-      this.updateDropDownOption(option, filteredOptions);
-    }
-  }
   //==============================================================================================
+
+
   elements = MOCK_DATABASE_ELEMENT_DATA;
 
   constructor(private formBuilder: FormBuilder) { }
