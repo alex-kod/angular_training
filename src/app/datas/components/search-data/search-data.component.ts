@@ -32,6 +32,14 @@ const MOCK_DATABASE_CODIFICATION: CodificationElement[] = [
   { code_a: 'code_a_2', lib_a: 'lib_a_2', code_b: 'code_b_6', lib_b: 'lib_b_6', code_c: 'code_c_3', lib_c: 'lib_c_3', code_d: 'code_d_1', lib_d: 'lib_d_1', data_codif: 'data_codif_12', lib_data_codif: 'lib_data_codif_12' },
 ];
 
+const dropdownOptions = [
+  { codeProperty: 'code_a' as  keyof CodificationElement, labelProperty: 'lib_a' as  keyof CodificationElement, formControl: 'codeA' },
+  { codeProperty: 'code_b' as  keyof CodificationElement, labelProperty: 'lib_b' as  keyof CodificationElement, formControl: 'codeB' },
+  { codeProperty: 'code_c' as  keyof CodificationElement, labelProperty: 'lib_c' as  keyof CodificationElement, formControl: 'codeC' },
+  { codeProperty: 'code_d' as  keyof CodificationElement, labelProperty: 'lib_d' as  keyof CodificationElement, formControl: 'codeD' },
+  { codeProperty: 'data_codif' as  keyof CodificationElement, labelProperty: 'lib_data_codif' as  keyof CodificationElement, formControl: 'dataCodif' },
+];
+
 const MOCK_DATABASE_ELEMENT_DATA: PeriodicElement[] = [
   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
   { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
@@ -332,7 +340,6 @@ export class SearchDataComponent implements OnInit {
     console.log("-----------------");
     console.log("dropdown cleared Code : " + code);
     console.log("-----------------");
-
     if (code === 'code_a') {
       this.isSelectedCodeA = false;
       this.cleanFilter( 'code_a', 'codeA');
@@ -358,71 +365,21 @@ export class SearchDataComponent implements OnInit {
     console.log("==============================================");
   }
 
-
-  /*
-    En Angular, si vous n'utilisez pas le mot-clé this pour lier une propriété de composant à une entrée de modèle, 
-    la variable ciblée ne sera pas mise à jour car le modèle n'est pas conscient des changements de propriété du composant. 
-    Cela est dû au mécanisme de détection des modifications d'Angular, 
-    qui repose sur des liaisons définies explicitement pour suivre et propager les changements de données entre le composant et la vue.
-    Si vous omettez le mot-clé this, vous créez essentiellement une variable locale dans le modèle qui n'est pas directement connectée à la propriété du composant. 
-    En conséquence, le modèle reste inconscient de toute modification de la propriété du composant et l'élément d'entrée ne sera pas mis à jour.
-  */
-  // updateDropDown(codeOptions: dropDownItem[], idCode: keyof CodificationElement, idLib: keyof CodificationElement, control: string) {
-  //   codeOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, idCode, idLib);
-  //   if (codeOptions.length == 1) {
-  //     this.simpleForm.controls[control].patchValue(codeOptions[0].code)
-  //   } else {
-  //     this.simpleForm.controls[control].patchValue(null)
-  //   }
-  //   codeOptions.forEach(item => console.log(idCode + ":" + `${item.code}`, "+" + idLib + ":" + `${item.lib}`));
-  // }
+  updateDropDownOption(option: any, filteredOptions: any[]) {
+    if (filteredOptions.length === 1) {
+      this.simpleForm.controls[option.formControl].patchValue(filteredOptions[0].code);
+    } else {
+      this.simpleForm.controls[option.formControl].patchValue(null);
+    }
+    console.log(`${option.codeProperty} : `, filteredOptions);
+    console.log("..............")
+  }
 
   updateAllDropDown() {
-    console.log("-----------------")
-    this.codeAOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_a', 'lib_a');
-    if (this.codeAOptions.length == 1) {
-      this.simpleForm.controls['codeA'].patchValue(this.codeAOptions[0].code)
-    } else {
-      this.simpleForm.controls['codeA'].patchValue(null)
+    for (const option of dropdownOptions) {
+      const filteredOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, option.codeProperty, option.labelProperty);
+      this.updateDropDownOption(option, filteredOptions);
     }
-    this.codeAOptions.forEach(item => console.log(`code_a: ${item.code}, lib_a: ${item.lib}`));
-
-
-    console.log("-----------------")
-    this.codeBOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_b', 'lib_b');
-    if (this.codeBOptions.length == 1) {
-      this.simpleForm.controls['codeB'].patchValue(this.codeBOptions[0].code)
-    } else {
-      this.simpleForm.controls['codeB'].patchValue(null)
-    }
-    console.log("code_b : " + this.codeBOptions);
-
-    console.log("-----------------")
-    this.codeCOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_c', 'lib_c');
-    if (this.codeCOptions.length == 1) {
-      this.simpleForm.controls['codeC'].patchValue(this.codeCOptions[0].code)
-    } else {
-      this.simpleForm.controls['codeC'].patchValue(null)
-    }
-    console.log("code_c : " + this.codeBOptions);
-
-    console.log("-----------------")
-    this.codeDOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'code_d', 'lib_d');
-    if (this.codeDOptions.length == 1) {
-      this.simpleForm.controls['codeD'].patchValue(this.codeDOptions[0].code)
-    } else {
-      this.simpleForm.controls['codeD'].patchValue(null)
-    }
-    console.log("code_d : " + this.codeDOptions);
-
-    console.log("-----------------")
-    this.dataCodifOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, 'data_codif', 'lib_data_codif');
-    if (this.dataCodifOptions.length == 1) {
-      this.simpleForm.controls['dataCodif'].patchValue(this.dataCodifOptions[0].code)
-    } else {
-      this.simpleForm.controls['dataCodif'].patchValue(null)
-    }
-    console.log("data_codif : " + this.dataCodifOptions);
   }
   //==============================================================================================
   elements = MOCK_DATABASE_ELEMENT_DATA;
