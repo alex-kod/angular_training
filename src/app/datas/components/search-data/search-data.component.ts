@@ -32,13 +32,7 @@ const MOCK_DATABASE_CODIFICATION: CodificationElement[] = [
   { code_a: 'code_a_2', lib_a: 'lib_a_2', code_b: 'code_b_6', lib_b: 'lib_b_6', code_c: 'code_c_3', lib_c: 'lib_c_3', code_d: 'code_d_1', lib_d: 'lib_d_1', data_codif: 'data_codif_12', lib_data_codif: 'lib_data_codif_12' },
 ];
 
-const dropdownOptions = [
-  { codeProperty: 'code_a' as keyof CodificationElement, labelProperty: 'lib_a' as keyof CodificationElement, formControl: 'codeA' },
-  { codeProperty: 'code_b' as keyof CodificationElement, labelProperty: 'lib_b' as keyof CodificationElement, formControl: 'codeB' },
-  { codeProperty: 'code_c' as keyof CodificationElement, labelProperty: 'lib_c' as keyof CodificationElement, formControl: 'codeC' },
-  { codeProperty: 'code_d' as keyof CodificationElement, labelProperty: 'lib_d' as keyof CodificationElement, formControl: 'codeD' },
-  { codeProperty: 'data_codif' as keyof CodificationElement, labelProperty: 'lib_data_codif' as keyof CodificationElement, formControl: 'dataCodif' },
-];
+
 
 const MOCK_DATABASE_ELEMENT_DATA: PeriodicElement[] = [
   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
@@ -151,6 +145,7 @@ export class SearchDataComponent implements OnInit {
   //==============================================================================================
   //                                 GESTION MENU DEROULANT
   //==============================================================================================
+
   codificationData: CodificationElement[] = MOCK_DATABASE_CODIFICATION;
 
   filters = {};
@@ -170,27 +165,23 @@ export class SearchDataComponent implements OnInit {
   dataCodifOptions: dropDownItem[] = []; // Options for data_codif dropdown
   isSelectedDataCodif!: boolean;
 
-  initDropDown() { //TODO factoriser
-    this.codeAOptions = this.getUniqueOptions(this.codificationData, 'code_a', 'lib_a');
-    this.isSelectedCodeA = false;
-    //------------------------------
-    this.codeBOptions = this.getUniqueOptions(this.codificationData, 'code_b', 'lib_b');
-    this.isSelectedCodeB = false;
-    // //-----------------------------
-    this.codeCOptions = this.getUniqueOptions(this.codificationData, 'code_c', 'lib_c');
-    this.isSelectedCodeC = false;
-    //------------------------------
-    this.codeDOptions = this.getUniqueOptions(this.codificationData, 'code_d', 'lib_d');
-    this.isSelectedCodeD = false;
-    //------------------------------
-    this.dataCodifOptions = this.getUniqueOptions(this.codificationData, 'data_codif', 'lib_data_codif');
-    this.isSelectedDataCodif = false;
+  dropdownOptions = [
+    { codeProperty: 'code_a' as keyof CodificationElement, labelProperty: 'lib_a' as keyof CodificationElement, formControl: 'codeA' },
+    { codeProperty: 'code_b' as keyof CodificationElement, labelProperty: 'lib_b' as keyof CodificationElement, formControl: 'codeB' },
+    { codeProperty: 'code_c' as keyof CodificationElement, labelProperty: 'lib_c' as keyof CodificationElement, formControl: 'codeC' },
+    { codeProperty: 'code_d' as keyof CodificationElement, labelProperty: 'lib_d' as keyof CodificationElement, formControl: 'codeD' },
+    { codeProperty: 'data_codif' as keyof CodificationElement, labelProperty: 'lib_data_codif' as keyof CodificationElement, formControl: 'dataCodif' },
+  ];
+
+  // Action d'initialisation
+  initDropDown() {
+    for (const option of this.dropdownOptions) {
+      (this as any)[`isSelected${this.capitalise(option.formControl)}`] = false;
+      (this as any)[`${option.formControl}Options`] = this.getUniqueOptions(this.codificationData, option.codeProperty, option.labelProperty);
+    }
   }
 
-
-  /*
-    Action effectuée lors de la secltion d'une valeur d'une liste déroulante
-  */
+  // Action effectuée lors de la secltion d'une valeur d'une liste déroulante
   onSelectDropDown(dropdownCode: string, control: string, selectedCode: string) {
 
     console.log("++++++++++++++++");
@@ -205,9 +196,7 @@ export class SearchDataComponent implements OnInit {
     console.log("==============================================");
   }
 
-  /*
-    Action effectuée lors de la suppression de la valeur séléctionnée d'une liste déroulante
-  */
+  // Action effectuée lors de la suppression de la valeur séléctionnée d'une liste déroulante
   cleanDropDowSelect(key: string, control: string) {
 
     console.log("-----------------");
@@ -232,7 +221,7 @@ export class SearchDataComponent implements OnInit {
   */
   updateAllDropDown() {
 
-    for (const option of dropdownOptions) {
+    for (const option of this.dropdownOptions) {
 
       // mise à jour des valeurs du menu deroulant
       console.log("updateAllDropDown --> mise à jour des valeurs du menu deroulant " + option.formControl);
@@ -244,16 +233,49 @@ export class SearchDataComponent implements OnInit {
       console.log("updateAllDropDown --> nombre de valeur du menu deroulant ", filteredOptions.length);
       if (filteredOptions.length === 1) {
         this.simpleForm.controls[option.formControl].patchValue(filteredOptions[0].code);
+        this.simpleForm.controls[option.formControl].markAsDirty();
         console.log("updateAllDropDown --> valeur séléctionée du menu déroulant ", filteredOptions[0].code);
       } else {
         this.simpleForm.controls[option.formControl].patchValue(null);
+        this.simpleForm.controls[option.formControl].markAsPristine();
       }
 
       console.log("..............")
     }
   }
+  /*
+    Explication des méthodes markAs* dans Angular Reactive Forms
+    Dans les formulaires réactifs d'Angular, les méthodes markAs* permettent de manipuler manuellement l'état de validation des contrôles et des groupes de contrôles.
+    Elles s'avèrent utiles pour gérer des scénarios de validation spécifiques ou réinitialiser des formulaires.
 
+    1. markAsDirty(options?: { onlySelf?: boolean }):
+    Définit l'état dirty d'un contrôle ou d'un groupe de contrôles sur true.
+    Indique que l'utilisateur a interagi avec le contrôle et a potentiellement modifié sa valeur.
+    Déclenche la validation si le contrôle possède des validateurs associés.
 
+    2. markAsTouched(options?: { onlySelf?: boolean }):
+    Définit l'état touched d'un contrôle ou d'un groupe de contrôles sur true.
+    Indique que l'utilisateur a interagi avec le contrôle (par exemple, clic sur un champ de saisie, sélection d'une option dans une liste déroulante).
+    N'implique pas nécessairement une modification de la valeur.
+    Peut être utilisé pour déclencher la validation en fonction de l'interaction de l'utilisateur (souvent en combinaison avec dirty).
+
+    3. markAsUntouched(options?: { onlySelf?: boolean }):
+    Définit l'état touched d'un contrôle ou d'un groupe de contrôles sur false.
+    Utile pour réinitialiser l'état d'interaction, en particulier lors du pré-remplissage de formulaires avec des données.
+    N'affecte pas l'état dirty.
+
+    4. markAsPristine(options?: { onlySelf?: boolean }):
+    Définit les états dirty et touched sur false.
+    Réinitialise le contrôle ou le groupe à son état initial et vierge.
+    Peut être utilisé pour effacer les erreurs de validation associées au contrôle.
+
+    5. markAsPending(options?: { onlySelf?: boolean }):
+    Définit l'état pending d'un contrôle ou d'un groupe de contrôles sur true.
+    Indique qu'une validation asynchrone est en cours (par exemple, appel d'API pour vérifier un nom d'utilisateur).
+    Peut être utilisé pour afficher un indicateur de chargement pendant la validation.
+  */
+
+  //-------------------------------UTILS MENU DEROULANT 
 
   /* 
     Création des données uniques et non filtrés d'une liste déroulante à partir des identifiants idCode / libCode des données sources
@@ -291,8 +313,6 @@ export class SearchDataComponent implements OnInit {
     return Array.from(uniqueSetDropDownItems.values());
 
   }
-
-  //-------------------------------UTILS MENU DEROULANT 
 
   /* 
     Création des données uniques et filtrés d'une liste déroulante à partir des identifiants idCode / libCode des données sources
@@ -337,36 +357,28 @@ export class SearchDataComponent implements OnInit {
     return Array.from(uniqueSet.values());
   }
 
-  /*
-    Actions lors de la définition du filtre
-  */
+
+  // Actions lors de la définition du filtre
   setFilterDataValue(code: string, control: string, selectedCode: string) {
     this.simpleForm.controls[control].patchValue(selectedCode)
     this.addFilterValue(this.filters, code, this.simpleForm.controls[control].value);
   }
 
-  /*
-     Ajout de filtre : permet d'ajouter plusieur valuer sur une même clé exemple code_a : val1 , val2,... n 
-  */
+  // Ajout de filtre : permet d'ajouter plusieur valuer sur une même clé exemple code_a : val1 , val2,... n 
   addFilterValue = (filters: { [key: string]: string[] }, key: string, filter: string) => {
     filters[key] = [filter];
   };
 
-  /*
-      Supprime toutes les valeurs du filtre pour la clé doonné exemple code_a : val1 , val2,... n 
-  */
+  // Supprime toutes les valeurs du filtre pour la clé doonné exemple code_a : val1 , val2,... n 
   removeFilterValue = (filters: { [key: string]: string[] }, key: string) => {
     delete filters[key];
   };
 
-  /*
-    Actions lors de la ré-initialisation du filtre
-  */
+  // Actions lors de la ré-initialisation du filtre
   cleanFilter(key: string, control: string) {
     this.removeFilterValue(this.filters, key);
     this.simpleForm.controls[control].patchValue(null);
   }
-
 
   capitalise(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
