@@ -225,6 +225,8 @@ export class SearchDataComponent implements OnInit {
 
       // mise à jour des valeurs du menu deroulant
       console.log("updateAllDropDown --> mise à jour des valeurs du menu deroulant " + option.formControl);
+      console.log("updateAllDropDown --> filtrage des données avec code : " + option.codeProperty + " et lib : " + option.labelProperty);
+      console.log("updateAllDropDown --> filtrage des données avec filtre : ", this.filters);
       const filteredOptions = this.getUniqueFiltredOptions(this.codificationData, this.filters, option.codeProperty, option.labelProperty);
       (this as any)[`${option.formControl}Options`] = filteredOptions; // Dynamically set the options array
       console.log("updateAllDropDown --> valeurs du menu deroulant ", (this as any)[`${option.formControl}Options`]);
@@ -317,7 +319,7 @@ export class SearchDataComponent implements OnInit {
   /* 
     Création des données uniques et filtrés d'une liste déroulante à partir des identifiants idCode / libCode des données sources
     Ces données sont filtrées via des données stocké dans un objet filters
-    Ces données sont stocké via l'interface dropDownItem (code / lib) 
+    LEs données filtrées sont stockées via l'interface dropDownItem (code / lib) 
     ---------------
     data: CodificationElement[] => les données sources (determinant leur liens) (ces données ne sont pas modifiées)
     filters: { [key in keyof CodificationElement]?: string[] } filtres sur les autres données que la liste déroulante en cours
@@ -339,16 +341,46 @@ export class SearchDataComponent implements OnInit {
     // élément filtrant pour déterminer les données à garder à partir des données sources
     data
       .filter(element => {
-        return (Object.keys(filters) as (keyof CodificationElement)[]).every(filterKey => {
-          const filterValues = filters[filterKey];
-          return filterValues ? filterValues.includes(element[filterKey]) : true;
-        });
+        // console.log('getUniqueFiltredOptions --> filterValues whit element ',element);// ==> pour debug
+        /*
+        Object.keys(filters): 
+        Cette partie convertit l'objet filters (objet contenant des critères de filtrage) en un tableau de ses noms de propriété (clés).
+        ----------
+        as (keyof CodificationElement)[]: 
+        Cette assertion de type garantit que le tableau de clés est traité comme un tableau de chaînes de caractères qui 
+        sont des noms de propriété (clés) valides du type CodificationElement. Cette sécurité de type permet d'éviter les erreurs.
+        ----------
+        .every(...): 
+        Cette méthode itère sur le tableau des clés de filtre. 
+        */
+        return (Object.keys(filters) as (keyof CodificationElement)[])
+          .every(
+            filterKey => {
+              // récupère la valeur associée à la filterKey actuelle de l'objet filters
+              const filterValues = filters[filterKey];
+              // console.log('getUniqueFiltredOptions --> filterValues whit filterKey '+filterKey, filterValues) // ==> pour debug
+              /*
+              opérateur ternaire conditionnel qui détermine si l'élément actuel (element) provenant de data
+              doit être inclus dans le résultat filtré en fonction des critères de filtrage correspondants
+
+              Si filterValues existe (pas null ou undefined) :
+              filterValues.includes(element[filterKey]): 
+              Cette partie vérifie si la valeur de la propriété filterKey dans l'élément element actuel est incluse dans le tableau filterValues. 
+              Si c'est le cas, l'élément est considéré comme une correspondance et sera inclus dans le résultat filtré.
+
+              Si filterValues n'existe pas :
+              true: Comme il n'y a pas de filtre spécifique pour cette propriété, l'élément est considéré comme une correspondance par défaut, 
+              ce qui garantit qu'il n'est pas exclu à cause de valeurs de filtre manquantes.
+               */
+              return filterValues ? filterValues.includes(element[filterKey]) : true;
+            });
       })
-      .forEach(element => {
+      .forEach(element => { // élément filtré précédemment
         // élément filtrant pour déterminer pour quelle liste déroulante on souhaite récupérer les données
         const key = element[idCode];
+        console.log('getUniqueFiltredOptions --> data foud',key)
         if (!uniqueSet.has(key)) {
-          // set new dropDownItem (code / lib) exemple {code = element['code_a'], lib = element['lib_a']}
+          // ajout en tant que dropDownItem (code / lib) exemple {code = element['code_a'], lib = element['lib_a']}
           uniqueSet.set(key, { code: element[idCode], lib: element[idLib] });
         }
       });
